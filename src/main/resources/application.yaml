@@ -11,7 +11,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.SQLServerDialect
     hibernate:
-      ddl-auto: update  # Puede ser 'create', 'update', 'validate' o 'none'
+      ddl-auto: none  # Use none after the schema is already present in SQL Server
     show-sql: false  # Puede true o false, para ver las consultas SQL en consola
 
 springdoc:
