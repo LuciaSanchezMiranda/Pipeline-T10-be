@@ -26,6 +26,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findByEstado(String estado) {
+        return productRepository.findByEstado(estado);
+    }
+
+    @Override
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
@@ -34,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Integer id, Product productDetails) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
-        
+
         product.setNombreProducto(productDetails.getNombreProducto());
         product.setIdCategoria(productDetails.getIdCategoria());
         product.setPrecio(productDetails.getPrecio());
@@ -42,16 +47,26 @@ public class ProductServiceImpl implements ProductService {
         product.setIdProveedor(productDetails.getIdProveedor());
         product.setStockDisponible(productDetails.getStockDisponible());
         product.setEstado(productDetails.getEstado());
-        
+
         return productRepository.save(product);
     }
 
+    // ✅ Eliminar lógico → cambia estado a "Inactivo"
     @Override
-    public void deleteProduct(Integer id) {
-        if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Producto no encontrado con id: " + id);
-        }
-        productRepository.deleteById(id);
+    public Product eliminarProducto(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+        product.setEstado("Inactivo");
+        return productRepository.save(product);
+    }
+
+    // ✅ Restaurar lógico → cambia estado a "Activo"
+    @Override
+    public Product restaurarProducto(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+        product.setEstado("Activo");
+        return productRepository.save(product);
     }
 
     @Override
@@ -67,10 +82,5 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findByIdProveedor(Integer idProveedor) {
         return productRepository.findByIdProveedor(idProveedor);
-    }
-
-    @Override
-    public List<Product> findByEstado(String estado) {
-        return productRepository.findByEstado(estado);
     }
 }
