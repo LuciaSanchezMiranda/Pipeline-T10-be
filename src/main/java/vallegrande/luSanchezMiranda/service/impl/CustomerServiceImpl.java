@@ -2,6 +2,7 @@ package vallegrande.luSanchezMiranda.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vallegrande.luSanchezMiranda.model.Customer;
 import vallegrande.luSanchezMiranda.repository.CustomerRepository;
 import vallegrande.luSanchezMiranda.service.CustomerService;
@@ -36,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
         return repository.save(customer);
     }
 
+    @Transactional
     @Override
     public Customer actualizar(Integer id, Customer customer) {
         Optional<Customer> existente = repository.findById(id);
@@ -52,6 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
             c.setIdUbigeo(customer.getIdUbigeo());
             c.setDocumentType(customer.getDocumentType());
             c.setDocumentNumber(customer.getDocumentNumber());
+            c.setStatus(customer.getStatus());
 
             return repository.save(c);
         }
@@ -59,6 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
+    @Transactional
     @Override
     public Customer eliminarLogico(Integer id) {
         Customer c = listarPorId(id);
@@ -69,6 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
+    @Transactional
     @Override
     public Customer restaurar(Integer id) {
         Customer c = listarPorId(id);

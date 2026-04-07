@@ -8,6 +8,7 @@ import vallegrande.luSanchezMiranda.service.CustomerService;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/customer")
 public class CustomerRest {
 
@@ -46,6 +47,7 @@ public class CustomerRest {
 
     // ELIMINAR LOGICO
     @PatchMapping("/eliminar/{id}")
+    @DeleteMapping("/{id}")
     public Customer eliminar(@PathVariable Integer id) {
         return service.eliminarLogico(id);
     }

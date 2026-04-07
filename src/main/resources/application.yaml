@@ -1,12 +1,12 @@
 server:
-  port: ${PORT:9090}  # Valor por defecto si PORT no está configurado
-  url: ${SERVER_URL:http://localhost:9090}  # Valor por defecto si SERVER_URL no está configurado
+  port: ${PORT:8080}  # Valor por defecto si PORT no está configurado
+  url: ${SERVER_URL:http://localhost:8080}  # Valor por defecto si SERVER_URL no está configurado
 
 spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=AgroPacayales;encrypt=true;trustServerCertificate=true  ## Cambiar "model" por tu base de datos
     username: sa          ## Cambiar por tu usuario
-    password: Admin12345!  ## Cambiar por tu contraseña
+    password: Admin123456!  ## Cambiar por tu contraseña
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     database-platform: org.hibernate.dialect.SQLServerDialect
