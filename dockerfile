@@ -15,8 +15,8 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 # docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Admin12345" -p 1433:1433 --name sqlserver -d yancarlos18/sql-server:2022
 
 
-# docker build -t yancarlos18/springboot-sqlserver:1.0 .
+# docker build -t ninahuancaromani/springboot-sqlserver:1.0 .    
 
-# docker run -d --name springboot-sqlserver -p 8085:8085 yancarlos18/springboot-sqlserver:1.0
+# docker run -d --name springboot-sqlserver -p 8085:8085 ninahuancaromani/springboot-sqlserver:1.0
 
-# docker push yancarlos18/springboot-sqlserver:1.0
+# docker push ninahuancaromani/springboot-sqlserver:1.0
