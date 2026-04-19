@@ -6,7 +6,7 @@ import vallegrande.luSanchezMiranda.model.Supplier;
 import vallegrande.luSanchezMiranda.repository.SupplierRepository;
 import vallegrande.luSanchezMiranda.service.SupplierService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +34,8 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public Supplier guardar(Supplier supplier) {
         supplier.setStatus("ACTIVO");
-        supplier.setCreatedDate(LocalDate.now());
+        supplier.setCreatedDate(LocalDateTime.now());
+        supplier.setUpdatedAt(LocalDateTime.now());
         return repository.save(supplier);
     }
 
@@ -54,6 +55,7 @@ public class SupplierServiceImpl implements SupplierService {
             s.setContactName(supplier.getContactName());
             s.setEmail(supplier.getEmail());
             s.setCreditLimit(supplier.getCreditLimit());
+            s.setUpdatedAt(LocalDateTime.now());
 
             return repository.save(s);
         }
@@ -66,6 +68,7 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier s = listarPorId(id);
         if (s != null) {
             s.setStatus("INACTIVO");
+            s.setDeletedAt(LocalDateTime.now());
             return repository.save(s);
         }
         return null;
@@ -76,6 +79,7 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier s = listarPorId(id);
         if (s != null) {
             s.setStatus("ACTIVO");
+            s.setRestoredAt(LocalDateTime.now());
             return repository.save(s);
         }
         return null;

@@ -8,6 +8,7 @@ import vallegrande.luSanchezMiranda.service.ProductService;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -32,6 +33,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
+        product.setCreatedAt(LocalDateTime.now());
+        product.setUpdatedAt(LocalDateTime.now());
         return productRepository.save(product);
     }
 
@@ -47,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
         product.setIdProveedor(productDetails.getIdProveedor());
         product.setStockDisponible(productDetails.getStockDisponible());
         product.setEstado(productDetails.getEstado());
+        product.setUpdatedAt(LocalDateTime.now());
 
         return productRepository.save(product);
     }
@@ -57,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
         product.setEstado("Inactivo");
+        product.setDeletedAt(LocalDateTime.now());
         return productRepository.save(product);
     }
 
@@ -66,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
         product.setEstado("Activo");
+        product.setRestoredAt(LocalDateTime.now());
         return productRepository.save(product);
     }
 

@@ -9,6 +9,7 @@ import vallegrande.luSanchezMiranda.service.CustomerService;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -34,6 +35,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer guardar(Customer customer) {
         customer.setStatus("ACTIVO");
+        customer.setCreatedAt(LocalDateTime.now());
+        customer.setUpdatedAt(LocalDateTime.now());
         return repository.save(customer);
     }
 
@@ -55,6 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
             c.setDocumentType(customer.getDocumentType());
             c.setDocumentNumber(customer.getDocumentNumber());
             c.setStatus(customer.getStatus());
+            c.setUpdatedAt(LocalDateTime.now());
 
             return repository.save(c);
         }
@@ -68,6 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer c = listarPorId(id);
         if (c != null) {
             c.setStatus("INACTIVO");
+            c.setDeletedAt(LocalDateTime.now());
             return repository.save(c);
         }
         return null;
@@ -79,6 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer c = listarPorId(id);
         if (c != null) {
             c.setStatus("ACTIVO");
+            c.setRestoredAt(LocalDateTime.now());
             return repository.save(c);
         }
         return null;

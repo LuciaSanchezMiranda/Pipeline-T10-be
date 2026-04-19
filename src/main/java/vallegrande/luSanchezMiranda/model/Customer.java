@@ -2,6 +2,7 @@ package vallegrande.luSanchezMiranda.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer")
@@ -42,4 +43,16 @@ public class Customer {
 
     @Column(name = "status")
     private String status; // ACTIVO / INACTIVO
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "restored_at")
+    private LocalDateTime restoredAt;
 }

@@ -2,6 +2,7 @@ package vallegrande.luSanchezMiranda.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "PRODUCTO")
@@ -33,12 +34,25 @@ public class Product {
     @Column(name = "Estado", length = 20, nullable = false)
     private String estado;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "restored_at")
+    private LocalDateTime restoredAt;
+
     // Constructores
     public Product() {
     }
 
     public Product(String nombreProducto, Integer idCategoria, BigDecimal precio,
-                   String unidadMedida, Integer idProveedor, BigDecimal stockDisponible, String estado) {
+                   String unidadMedida, Integer idProveedor, BigDecimal stockDisponible, String estado,
+                   LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime restoredAt) {
         this.nombreProducto = nombreProducto;
         this.idCategoria = idCategoria;
         this.precio = precio;
@@ -46,6 +60,10 @@ public class Product {
         this.idProveedor = idProveedor;
         this.stockDisponible = stockDisponible;
         this.estado = estado;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.restoredAt = restoredAt;
     }
 
     // Getters y Setters
@@ -113,6 +131,38 @@ public class Product {
         this.estado = estado;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getRestoredAt() {
+        return restoredAt;
+    }
+
+    public void setRestoredAt(LocalDateTime restoredAt) {
+        this.restoredAt = restoredAt;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -124,6 +174,10 @@ public class Product {
                 ", idProveedor=" + idProveedor +
                 ", stockDisponible=" + stockDisponible +
                 ", estado='" + estado + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                ", restoredAt=" + restoredAt +
                 '}';
     }
 }

@@ -2,7 +2,7 @@ package vallegrande.luSanchezMiranda.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Supplier")
@@ -42,7 +42,16 @@ public class Supplier {
     private Double creditLimit;
 
     @Column(name = "created_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "restored_at")
+    private LocalDateTime restoredAt;
 
     @Column(name = "status")
     private String status; // ACTIVO / INACTIVO
