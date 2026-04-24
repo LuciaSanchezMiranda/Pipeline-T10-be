@@ -1,5 +1,6 @@
 package vallegrande.luSanchezMiranda.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Supplier")
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Supplier {
 
     @Id

@@ -55,7 +55,12 @@ public class SupplierServiceImpl implements SupplierService {
             s.setContactName(supplier.getContactName());
             s.setEmail(supplier.getEmail());
             s.setCreditLimit(supplier.getCreditLimit());
+            // No copiar fechas de auditoría del request, mantener las existentes
+            // s.setCreatedDate(supplier.getCreatedDate()); // No editable
             s.setUpdatedAt(LocalDateTime.now());
+            // s.setDeletedAt(supplier.getDeletedAt()); // No editable
+            // s.setRestoredAt(supplier.getRestoredAt()); // No editable
+            // s.setStatus(supplier.getStatus()); // Status se maneja en eliminar/restaurar
 
             return repository.save(s);
         }
