@@ -4,14 +4,14 @@ version: '3'
 
 services:
   backend:
-    image: yancarlos18/springboot-sqlserver:1.1   # cambiar por tu usuario de dockerhub
+    image: yancarlos18/springboot-sqlserver:1.0   # cambiar por tu usuario de dockerhub
     container_name: springboot-sqlserver
     ports:
       - "8080:8080"
     environment:
       - PORT=8080
       - SERVER_URL=http://localhost:8080
-      - DATABASE_URL=jdbc:sqlserver://sql-server:1433;databaseName=AgroPacayales;encrypt=true;trustServerCertificate=true
+      - DATABASE_URL=jdbc:sqlserver://sql-server:1433;databaseName=BerryControl;encrypt=true;trustServerCertificate=true
       - DATABASE_USERNAME=sa
       - DATABASE_PASSWORD=Yancarlos123!
       - DATABASE_DRIVER=com.microsoft.sqlserver.jdbc.SQLServerDriver

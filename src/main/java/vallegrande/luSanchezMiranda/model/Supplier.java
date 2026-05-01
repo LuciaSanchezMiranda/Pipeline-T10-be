@@ -6,45 +6,39 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Supplier")
+@Table(name = "SUPPLIER")
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Supplier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_supplier")
-    private Integer idSupplier;
+    @Column(name = "supplier_id")
+    private Integer supplierId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "ubigeo_code", length = 6)
+    private String ubigeoCode;
 
-    @Column(name = "ruc")
-    private String ruc;
-
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "tipo")
-    private String tipo;
-
-    @Column(name = "company_name")
+    @Column(name = "company_name", length = 150, nullable = false)
     private String companyName;
 
-    @Column(name = "contact_name")
-    private String contactName;
+    @Column(name = "ruc", length = 11, nullable = false)
+    private String ruc;
 
-    @Column(name = "email")
+    @Column(name = "phone", length = 9)
+    private String phone;
+
+    @Column(name = "email", length = 100)
     private String email;
 
-    @Column(name = "credit_limit")
-    private Double creditLimit;
+    @Column(name = "address", length = 255)
+    private String address;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    @Column(name = "status", length = 20, nullable = false)
+    private String status = "activo";
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -52,9 +46,16 @@ public class Supplier {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "restored_at")
-    private LocalDateTime restoredAt;
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        if (status == null) {
+            status = "activo";
+        }
+    }
 
-    @Column(name = "status")
-    private String status; // ACTIVO / INACTIVO
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

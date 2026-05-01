@@ -34,9 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer guardar(Customer customer) {
-        customer.setStatus("ACTIVO");
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setUpdatedAt(LocalDateTime.now());
+        customer.setStatus("activo");
         return repository.save(customer);
     }
 
@@ -48,17 +46,15 @@ public class CustomerServiceImpl implements CustomerService {
         if (existente.isPresent()) {
             Customer c = existente.get();
 
-            c.setNameCustomer(customer.getNameCustomer());
-            c.setLastnameCustomer(customer.getLastnameCustomer());
-            c.setTypeCustomer(customer.getTypeCustomer());
-            c.setPhone(customer.getPhone());
-            c.setAddress(customer.getAddress());
-            c.setEmail(customer.getEmail());
-            c.setIdUbigeo(customer.getIdUbigeo());
-            c.setDocumentType(customer.getDocumentType());
+            c.setUbigeoCode(customer.getUbigeoCode());
+            c.setCustomerType(customer.getCustomerType());
             c.setDocumentNumber(customer.getDocumentNumber());
-            c.setStatus(customer.getStatus());
-            c.setUpdatedAt(LocalDateTime.now());
+            c.setCustomerName(customer.getCustomerName());
+            c.setCustomerLastname(customer.getCustomerLastname());
+            c.setPhone(customer.getPhone());
+            c.setEmail(customer.getEmail());
+            c.setAddress(customer.getAddress());
+            // No copiar fechas de auditoría del request, se manejan con JPA callbacks
 
             return repository.save(c);
         }
@@ -71,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer eliminarLogico(Integer id) {
         Customer c = listarPorId(id);
         if (c != null) {
-            c.setStatus("INACTIVO");
+            c.setStatus("inactivo");
             c.setDeletedAt(LocalDateTime.now());
             return repository.save(c);
         }
@@ -83,8 +79,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer restaurar(Integer id) {
         Customer c = listarPorId(id);
         if (c != null) {
-            c.setStatus("ACTIVO");
-            c.setRestoredAt(LocalDateTime.now());
+            c.setStatus("activo");
+            c.setDeletedAt(null);
             return repository.save(c);
         }
         return null;

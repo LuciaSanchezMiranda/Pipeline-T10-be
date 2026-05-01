@@ -33,9 +33,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier guardar(Supplier supplier) {
-        supplier.setStatus("ACTIVO");
-        supplier.setCreatedDate(LocalDateTime.now());
-        supplier.setUpdatedAt(LocalDateTime.now());
+        supplier.setStatus("activo");
         return repository.save(supplier);
     }
 
@@ -46,21 +44,13 @@ public class SupplierServiceImpl implements SupplierService {
         if (existente.isPresent()) {
             Supplier s = existente.get();
 
-            s.setName(supplier.getName());
+            s.setUbigeoCode(supplier.getUbigeoCode());
+            s.setCompanyName(supplier.getCompanyName());
             s.setRuc(supplier.getRuc());
             s.setPhone(supplier.getPhone());
-            s.setAddress(supplier.getAddress());
-            s.setTipo(supplier.getTipo());
-            s.setCompanyName(supplier.getCompanyName());
-            s.setContactName(supplier.getContactName());
             s.setEmail(supplier.getEmail());
-            s.setCreditLimit(supplier.getCreditLimit());
-            // No copiar fechas de auditoría del request, mantener las existentes
-            // s.setCreatedDate(supplier.getCreatedDate()); // No editable
-            s.setUpdatedAt(LocalDateTime.now());
-            // s.setDeletedAt(supplier.getDeletedAt()); // No editable
-            // s.setRestoredAt(supplier.getRestoredAt()); // No editable
-            // s.setStatus(supplier.getStatus()); // Status se maneja en eliminar/restaurar
+            s.setAddress(supplier.getAddress());
+            // No copiar fechas de auditoría del request, se manejan con JPA callbacks
 
             return repository.save(s);
         }
@@ -72,7 +62,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier eliminarLogico(Integer id) {
         Supplier s = listarPorId(id);
         if (s != null) {
-            s.setStatus("INACTIVO");
+            s.setStatus("inactivo");
             s.setDeletedAt(LocalDateTime.now());
             return repository.save(s);
         }
@@ -83,8 +73,8 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier restaurar(Integer id) {
         Supplier s = listarPorId(id);
         if (s != null) {
-            s.setStatus("ACTIVO");
-            s.setRestoredAt(LocalDateTime.now());
+            s.setStatus("activo");
+            s.setDeletedAt(null);
             return repository.save(s);
         }
         return null;
