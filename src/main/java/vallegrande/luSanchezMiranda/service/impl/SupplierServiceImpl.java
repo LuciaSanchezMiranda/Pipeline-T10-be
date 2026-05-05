@@ -75,6 +75,7 @@ public class SupplierServiceImpl implements SupplierService {
         if (s != null) {
             s.setStatus("activo");
             s.setDeletedAt(null);
+            s.setRestoredAt(LocalDateTime.now());
             return repository.save(s);
         }
         return null;
