@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             c.setUbigeoCode(customer.getUbigeoCode());
             c.setCustomerType(customer.getCustomerType());
-            c.setDocumentNumber(customer.getDocumentNumber());
+            c.setCustomerNumber(customer.getCustomerNumber());
             c.setCustomerName(customer.getCustomerName());
             c.setCustomerLastname(customer.getCustomerLastname());
             c.setPhone(customer.getPhone());
@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer c = listarPorId(id);
         if (c != null) {
             c.setStatus("activo");
-            c.setDeletedAt(null);
+            c.setRestoredAt(LocalDateTime.now());
             return repository.save(c);
         }
         return null;

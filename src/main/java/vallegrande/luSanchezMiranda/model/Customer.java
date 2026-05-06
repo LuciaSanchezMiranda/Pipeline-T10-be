@@ -14,14 +14,14 @@ public class Customer {
     @Column(name = "id_customer")
     private Integer idCustomer;
 
-    @Column(name = "ubigeo_code", length = 6)
-    private String ubigeoCode;
+    @Column(name = "ubigeo_code", nullable = false)
+    private Integer ubigeoCode;
 
     @Column(name = "customer_type", length = 20, nullable = false)
     private String customerType;
 
-    @Column(name = "document_number", length = 15, nullable = false)
-    private String documentNumber;
+    @Column(name = "customer_number", length = 15, nullable = false)
+    private String customerNumber;
 
     @Column(name = "customer_name", length = 50, nullable = false)
     private String customerName;
@@ -29,13 +29,13 @@ public class Customer {
     @Column(name = "customer_lastname", length = 60)
     private String customerLastname;
 
-    @Column(name = "phone", length = 9)
+    @Column(name = "phone", length = 9, nullable = false)
     private String phone;
 
-    @Column(name = "email", length = 150)
+    @Column(name = "email", length = 150, nullable = false)
     private String email;
 
-    @Column(name = "address", length = 255)
+    @Column(name = "address", length = 255, nullable = false)
     private String address;
 
     @Column(name = "status", length = 10, nullable = false)
@@ -49,6 +49,9 @@ public class Customer {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Column(name = "restored_at")
+    private LocalDateTime restoredAt;
 
     @PrePersist
     protected void onCreate() {
