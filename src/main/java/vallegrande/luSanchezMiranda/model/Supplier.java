@@ -28,7 +28,8 @@ public class Supplier {
     @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "address", length = 255, nullable = false)
+    @org.hibernate.annotations.ColumnTransformer(read = "address.STAsText()", write = "geography::STGeomFromText(?, 4326)")
+    @Column(name = "address", columnDefinition = "geography", nullable = false)
     private String address;
 
     @Column(name = "status", length = 20, nullable = false)

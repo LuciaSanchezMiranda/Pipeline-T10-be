@@ -108,35 +108,41 @@ VALUES (5,'AgroTech','20123456783','987654325','proveedor5@gmail.com',geography:
 
 -- Table: CUSTOMER
 CREATE TABLE CUSTOMER (
-    id_customer int NOT NULL,
-    customer_type varchar(20) NOT NULL,
-    customer_number varchar(15) NOT NULL,
-    customer_name varchar(50) NOT NULL,
-    customer_lastname varchar(60) NOT NULL,
-    phone char(9) NOT NULL,
-    email varchar(150) NOT NULL,
-    address geography NOT NULL,
-    status varchar(10) NOT NULL,
-    created_at datetime NOT NULL,
-    updated_at datetime NOT NULL,
-    deleted_at datetime NULL,
-    restored_at datetime NULL,
-    ubigeo_code int NOT NULL,
-    CONSTRAINT CUSTOMER_pk PRIMARY KEY (id_customer),
-    CONSTRAINT CUSTOMER_UBIGEO FOREIGN KEY (ubigeo_code) REFERENCES UBIGEO (ubigeo_code)
+    id_customer int IDENTITY(1,1) NOT NULL,
+    customer_name varchar(50)  NOT NULL,
+    customer_lastname varchar(60)  NOT NULL,
+    customer_type varchar(20)  NOT NULL,
+    document_type varchar(5)  NOT NULL,
+    document_number varchar(15)  NOT NULL,
+    email varchar(150)  NOT NULL,
+    phone char(9)  NOT NULL,
+    address geography  NOT NULL,
+    status varchar(10)  NOT NULL,
+    created_at datetime  NOT NULL,
+    updated_at datetime  NOT NULL,
+    deleted_at datetime  NULL,
+    restored_at datetime  NULL,
+    ubigeo_code int  NOT NULL,
+    CONSTRAINT CUSTOMER_pk PRIMARY KEY  (id_customer)
 );
 
 -- Insert data into CUSTOMER
-INSERT INTO CUSTOMER (id_customer, customer_type, customer_number, customer_name, customer_lastname, phone, email, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
-VALUES (1,'DNI','12345678','Luis','Perez','999111111','luis@gmail.com',geography::STGeomFromText('POINT(-77.01 -12.04)',4326),'ACTIVO',GETDATE(),GETDATE(),NULL,NULL,150101);
-INSERT INTO CUSTOMER (id_customer, customer_type, customer_number, customer_name, customer_lastname, phone, email, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
-VALUES (2,'DNI','87654321','Ana','Torres','999222222','ana@gmail.com',geography::STGeomFromText('POINT(-77.02 -12.05)',4326),'ACTIVO',GETDATE(),GETDATE(),NULL,NULL,150102);
-INSERT INTO CUSTOMER (id_customer, customer_type, customer_number, customer_name, customer_lastname, phone, email, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
-VALUES (3,'RUC','20111111111','Empresa','SAC','999333333','empresa@gmail.com',geography::STGeomFromText('POINT(-77.03 -12.06)',4326),'ACTIVO',GETDATE(),GETDATE(),NULL,NULL,150103);
-INSERT INTO CUSTOMER (id_customer, customer_type, customer_number, customer_name, customer_lastname, phone, email, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
-VALUES (4,'DNI','45678912','Carlos','Lopez','999444444','carlos@gmail.com',geography::STGeomFromText('POINT(-77.04 -12.07)',4326),'ACTIVO',GETDATE(),GETDATE(),NULL,NULL,150104);
-INSERT INTO CUSTOMER (id_customer, customer_type, customer_number, customer_name, customer_lastname, phone, email, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
-VALUES (5,'DNI','78912345','Maria','Gomez','999555555','maria@gmail.com',geography::STGeomFromText('POINT(-77.05 -12.08)',4326),'ACTIVO',GETDATE(),GETDATE(),NULL,NULL,150105);
+SET IDENTITY_INSERT CUSTOMER ON;
+INSERT INTO CUSTOMER (id_customer, customer_name, customer_lastname, customer_type, document_type, document_number, email, phone, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
+VALUES (1,'Luis','Perez','NATURAL','DNI','12345678','luis@gmail.com','999111111',geography::STGeomFromText('POINT(-77.01 -12.04)',4326),'ACTIVO','2022-01-01','2022-01-01',NULL,NULL,150101);
+
+INSERT INTO CUSTOMER (id_customer, customer_name, customer_lastname, customer_type, document_type, document_number, email, phone, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
+VALUES (2,'Ana','Torres','NATURAL','DNI','87654321','ana@gmail.com','999222222',geography::STGeomFromText('POINT(-77.02 -12.05)',4326),'ACTIVO','2022-01-02','2022-01-02',NULL,NULL,150102);
+
+INSERT INTO CUSTOMER (id_customer, customer_name, customer_lastname, customer_type, document_type, document_number, email, phone, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
+VALUES (3,'Carlos','Lopez','NATURAL','DNI','45678912','carlos@gmail.com','999333333',geography::STGeomFromText('POINT(-77.03 -12.06)',4326),'ACTIVO','2022-01-03','2022-01-03',NULL,NULL,150103);
+
+INSERT INTO CUSTOMER (id_customer, customer_name, customer_lastname, customer_type, document_type, document_number, email, phone, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
+VALUES (4,'Maria','Gomez','NATURAL','DNI','78912345','maria@gmail.com','999444444',geography::STGeomFromText('POINT(-77.04 -12.07)',4326),'ACTIVO','2022-01-04','2022-01-04',NULL,NULL,150104);
+
+INSERT INTO CUSTOMER (id_customer, customer_name, customer_lastname, customer_type, document_type, document_number, email, phone, address, status, created_at, updated_at, deleted_at, restored_at, ubigeo_code)
+VALUES (5,'Jose','Ramirez','NATURAL','DNI','74125896','jose@gmail.com','999555555',geography::STGeomFromText('POINT(-77.05 -12.08)',4326),'ACTIVO','2022-01-05','2022-01-05',NULL,NULL,150105);
+SET IDENTITY_INSERT CUSTOMER OFF;
 
 -- Table: EMPLOYEE
 CREATE TABLE EMPLOYEE (

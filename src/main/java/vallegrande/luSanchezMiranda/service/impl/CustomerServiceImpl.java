@@ -17,73 +17,90 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository repository;
 
+    // Listar todos los clientes
     @Override
     public List<Customer> listar() {
         return repository.findAll();
     }
 
+    // Buscar cliente por su ID
     @Override
     public Customer listarPorId(Integer id) {
         return repository.findById(id).orElse(null);
     }
 
+    // Filtrar clientes por estado (activo/inactivo)
     @Override
     public List<Customer> listarPorEstado(String status) {
-        return repository.findByStatus(status);
+        return repository.findByStatusIgnoreCase(status);
     }
 
+    // Filtrar clientes por tipo (Natural/Jurídico)
+    @Override
+    public List<Customer> listarPorTipo(String type) {
+        return repository.findByCustomerTypeIgnoreCase(type);
+    }
+
+    // Filtrar clientes por estado y tipo simultáneamente
+    @Override
+    public List<Customer> listarPorEstadoYTipo(String status, String type) {
+        return repository.findByStatusIgnoreCaseAndCustomerTypeIgnoreCase(status, type);
+    }
+
+    // Crear un nuevo cliente (asegurando que el ID sea nulo para generar uno nuevo)
+    @Transactional
     @Override
     public Customer guardar(Customer customer) {
-        customer.setStatus("activo");
+        customer.setIdCustomer(null); // Forzar creación de nuevo registro
+        if (customer.getStatus() == null) {
+            customer.setStatus("activo");
+        }
         return repository.save(customer);
     }
 
+    // Actualizar un cliente existente buscando por ID y mapeando campos
     @Transactional
     @Override
     public Customer actualizar(Integer id, Customer customer) {
-        Optional<Customer> existente = repository.findById(id);
-
-        if (existente.isPresent()) {
-            Customer c = existente.get();
-
-            c.setUbigeo(customer.getUbigeo());
-            c.setCustomerType(customer.getCustomerType());
-            c.setCustomerNumber(customer.getCustomerNumber());
-            c.setCustomerName(customer.getCustomerName());
-            c.setCustomerLastname(customer.getCustomerLastname());
-            c.setPhone(customer.getPhone());
-            c.setEmail(customer.getEmail());
-            c.setAddress(customer.getAddress());
-            // No copiar fechas de auditoría del request, se manejan con JPA callbacks
-
-            return repository.save(c);
-        }
-
-        return null;
+        return repository.findById(id).map(existing -> {
+            // Solo actualizar los campos que vienen en la petición (soporte para actualizaciones parciales)
+            if (customer.getUbigeo() != null) existing.setUbigeo(customer.getUbigeo());
+            if (customer.getCustomerName() != null) existing.setCustomerName(customer.getCustomerName());
+            if (customer.getCustomerLastname() != null) existing.setCustomerLastname(customer.getCustomerLastname());
+            if (customer.getCustomerType() != null) existing.setCustomerType(customer.getCustomerType());
+            if (customer.getDocumentType() != null) existing.setDocumentType(customer.getDocumentType());
+            if (customer.getDocumentNumber() != null) existing.setDocumentNumber(customer.getDocumentNumber());
+            if (customer.getEmail() != null) existing.setEmail(customer.getEmail());
+            if (customer.getPhone() != null) existing.setPhone(customer.getPhone());
+            if (customer.getAddress() != null) existing.setAddress(customer.getAddress());
+            if (customer.getStatus() != null) existing.setStatus(customer.getStatus());
+            
+            // repository.save sobre un objeto ya gestionado (existing) realiza un UPDATE en vez de INSERT
+            return repository.save(existing);
+        }).orElse(null);
     }
 
+    // Eliminación lógica del cliente (cambio de estado a inactivo)
     @Transactional
     @Override
     public Customer eliminarLogico(Integer id) {
-        Customer c = listarPorId(id);
-        if (c != null) {
+        return repository.findById(id).map(c -> {
             c.setStatus("inactivo");
             c.setDeletedAt(LocalDateTime.now());
+            c.setRestoredAt(null);
             return repository.save(c);
-        }
-        return null;
+        }).orElse(null);
     }
 
+    // Restauración de un cliente previamente eliminado (cambio de estado a activo)
     @Transactional
     @Override
     public Customer restaurar(Integer id) {
-        Customer c = listarPorId(id);
-        if (c != null) {
+        return repository.findById(id).map(c -> {
             c.setStatus("activo");
-            c.setDeletedAt(null);
             c.setRestoredAt(LocalDateTime.now());
+            c.setDeletedAt(null);
             return repository.save(c);
-        }
-        return null;
+        }).orElse(null);
     }
-}
+}

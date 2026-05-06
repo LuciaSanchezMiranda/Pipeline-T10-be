@@ -1,11 +1,15 @@
 package vallegrande.luSanchezMiranda.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "UBIGEO")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ubigeo {
 
     @Id
