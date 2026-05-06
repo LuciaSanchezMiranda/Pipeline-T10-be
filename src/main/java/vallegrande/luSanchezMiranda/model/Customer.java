@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_customer")
     private Integer idCustomer;
 
-    @Column(name = "ubigeo_code", nullable = false)
-    private Integer ubigeoCode;
+    @ManyToOne
+    @JoinColumn(name = "ubigeo_code", nullable = false)
+    private Ubigeo ubigeo;
 
     @Column(name = "customer_type", length = 20, nullable = false)
     private String customerType;
@@ -26,16 +26,16 @@ public class Customer {
     @Column(name = "customer_name", length = 50, nullable = false)
     private String customerName;
 
-    @Column(name = "customer_lastname", length = 60)
+    @Column(name = "customer_lastname", length = 60, nullable = false)
     private String customerLastname;
 
-    @Column(name = "phone", length = 9, nullable = false)
+    @Column(name = "phone", columnDefinition = "char(9)", nullable = false)
     private String phone;
 
     @Column(name = "email", length = 150, nullable = false)
     private String email;
 
-    @Column(name = "address", length = 255, nullable = false)
+    @Column(name = "address", columnDefinition = "geography", nullable = false)
     private String address;
 
     @Column(name = "status", length = 10, nullable = false)
@@ -44,7 +44,7 @@ public class Customer {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @Column(name = "deleted_at")
@@ -55,7 +55,9 @@ public class Customer {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
         if (status == null) {
             status = "activo";
         }

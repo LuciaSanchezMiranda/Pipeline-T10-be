@@ -7,7 +7,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest   # cambiar por tu usuario de dockerhub
     container_name: sql-server
     environment:
-      SA_PASSWORD: "Lucia12345!"
+      SA_PASSWORD: "Lucia123456!"
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
     ports:

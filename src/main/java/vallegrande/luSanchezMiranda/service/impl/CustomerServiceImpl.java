@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (existente.isPresent()) {
             Customer c = existente.get();
 
-            c.setUbigeoCode(customer.getUbigeoCode());
+            c.setUbigeo(customer.getUbigeo());
             c.setCustomerType(customer.getCustomerType());
             c.setCustomerNumber(customer.getCustomerNumber());
             c.setCustomerName(customer.getCustomerName());
@@ -80,6 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer c = listarPorId(id);
         if (c != null) {
             c.setStatus("activo");
+            c.setDeletedAt(null);
             c.setRestoredAt(LocalDateTime.now());
             return repository.save(c);
         }

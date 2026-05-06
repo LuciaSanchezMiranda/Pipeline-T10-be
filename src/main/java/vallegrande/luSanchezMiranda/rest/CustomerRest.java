@@ -46,7 +46,6 @@ public class CustomerRest {
     }
 
     // ELIMINAR LOGICO
-    @PatchMapping("/eliminar/{id}")
     @DeleteMapping("/{id}")
     public Customer eliminar(@PathVariable Integer id) {
         return service.eliminarLogico(id);
