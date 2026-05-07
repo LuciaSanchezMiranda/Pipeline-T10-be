@@ -45,6 +45,7 @@ public class SupplierServiceImpl implements SupplierService {
             Supplier s = existente.get();
 
             s.setUbigeoCode(supplier.getUbigeoCode());
+            s.setCategoryId(supplier.getCategoryId());
             s.setCompanyName(supplier.getCompanyName());
             s.setRuc(supplier.getRuc());
             s.setPhone(supplier.getPhone());
