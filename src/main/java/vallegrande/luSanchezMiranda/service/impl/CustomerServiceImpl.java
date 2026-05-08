@@ -18,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository repository;
 
     // Listar todos los clientes
+    @Transactional(readOnly = true)
     @Override
     public List<Customer> listar() {
         return repository.findAll();

@@ -8,6 +8,7 @@ SALE_DETAILS,SALE,PURCHASES_DETAILS,PURCHASES,PRODUCTS_SUPPLY,PRODUCTS_SALE,
 EMPLOYEE,CUSTOMER,SUPPLIER,ROLES,UBIGEO,CATEGORY;
 GO
 
+
 CREATE TABLE CATEGORY(
 category_id INT IDENTITY(1,1) PRIMARY KEY,
 category_name VARCHAR(100) NOT NULL,
@@ -16,10 +17,10 @@ status VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE UBIGEO(
-ubigeo_code INT IDENTITY(1,1) PRIMARY KEY,
-department VARCHAR(100) NOT NULL,
-province VARCHAR(100) NOT NULL,
-district VARCHAR(100) NOT NULL
+    ubigeo_code INT PRIMARY KEY,
+    department VARCHAR(100) NOT NULL,
+    province VARCHAR(100) NOT NULL,
+    district VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE ROLES(
@@ -249,12 +250,12 @@ CONSTRAINT FK_STOCK_PRODUCT_SUPPLY FOREIGN KEY(product_id) REFERENCES PRODUCTS_S
 CONSTRAINT FK_STOCK_PURCHASE FOREIGN KEY(id_purchase) REFERENCES PURCHASES(id_purchase)
 );
 
-INSERT INTO UBIGEO(department,province,district) VALUES
-('Lima','Lima','Miraflores'),
-('Lima','Callao','Bellavista'),
-('Cusco','Cusco','Wanchaq'),
-('Arequipa','Arequipa','Cayma'),
-('La Libertad','Trujillo','Víctor Larco');
+INSERT INTO UBIGEO(ubigeo_code, department, province, district) VALUES
+(150122, 'Lima', 'Lima', 'Miraflores'),
+(070101, 'Callao', 'Callao', 'Bellavista'),
+(080101, 'Cusco', 'Cusco', 'Wanchaq'),
+(040101, 'Arequipa', 'Arequipa', 'Cayma'),
+(130101, 'La Libertad', 'Trujillo', 'Víctor Larco');
 
 INSERT INTO CATEGORY(category_name,category_type,status) VALUES
 ('Flores Naturales','VENTA','ACTIVO'),
@@ -271,18 +272,18 @@ INSERT INTO ROLES(role_name,status,description) VALUES
 ('Operario','ACTIVO','Trabaja producción');
 
 INSERT INTO CUSTOMER(customer_name,customer_lastname,customer_type,document_type,document_number,email,phone,address,status,ubigeo_code) VALUES
-('Maria','Ninahuanca','FRECUENTE','DNI','71234567','maria@gmail.com','987654321','Av Lima 123','ACTIVO',1),
-('Carlos','Ramirez','NORMAL','DNI','74561234','carlos@gmail.com','912345678','Jr Sol 456','ACTIVO',2),
-('Lucia','Torres','VIP','DNI','70123456','lucia@gmail.com','923456781','Av Perú 789','ACTIVO',3),
-('Jorge','Mendoza','NORMAL','DNI','73456789','jorge@gmail.com','934567812','Calle Norte 321','ACTIVO',4),
-('Andrea','Salas','VIP','DNI','75678901','andrea@gmail.com','945678123','Av Central 852','ACTIVO',5);
+('Maria','Ninahuanca','FRECUENTE','DNI','71234567','maria@gmail.com','987654321','Av Lima 123','ACTIVO',150122),
+('Carlos','Ramirez','NORMAL','DNI','74561234','carlos@gmail.com','912345678','Jr Sol 456','ACTIVO',070101),
+('Lucia','Torres','VIP','DNI','70123456','lucia@gmail.com','923456781','Av Perú 789','ACTIVO',080101),
+('Jorge','Mendoza','NORMAL','DNI','73456789','jorge@gmail.com','934567812','Calle Norte 321','ACTIVO',040101),
+('Andrea','Salas','VIP','DNI','75678901','andrea@gmail.com','945678123','Av Central 852','ACTIVO',130101);
 
 INSERT INTO EMPLOYEE(ubigeo_code,role_id,document_type,document_number,name,last_name,phone,email,address,entry_date,status,password) VALUES
-(1,1,'DNI','78945612','Luis','Paredes','987111222','luis@empresa.com','Av Principal 111','2025-01-10','ACTIVO','123456'),
-(2,2,'DNI','78945613','Ana','Rojas','987111223','ana@empresa.com','Av Principal 112','2025-02-15','ACTIVO','123456'),
-(3,3,'DNI','78945614','Pedro','Castro','987111224','pedro@empresa.com','Av Principal 113','2025-03-12','ACTIVO','123456'),
-(4,4,'DNI','78945615','Elena','Quispe','987111225','elena@empresa.com','Av Principal 114','2025-04-18','ACTIVO','123456'),
-(5,5,'DNI','78945616','Mario','Vega','987111226','mario@empresa.com','Av Principal 115','2025-05-05','ACTIVO','123456');
+(150122,1,'DNI','78945612','Luis','Paredes','987111222','luis@empresa.com','Av Principal 111','2025-01-10','ACTIVO','123456'),
+(070101,2,'DNI','78945613','Ana','Rojas','987111223','ana@empresa.com','Av Principal 112','2025-02-15','ACTIVO','123456'),
+(080101,3,'DNI','78945614','Pedro','Castro','987111224','pedro@empresa.com','Av Principal 113','2025-03-12','ACTIVO','123456'),
+(040101,4,'DNI','78945615','Elena','Quispe','987111225','elena@empresa.com','Av Principal 114','2025-04-18','ACTIVO','123456'),
+(130101,5,'DNI','78945616','Mario','Vega','987111226','mario@empresa.com','Av Principal 115','2025-05-05','ACTIVO','123456');
 
 INSERT INTO PRODUCTS_SALE(product_name,price,available_stock,unit_measurement,description,category_id) VALUES
 ('Ramo Rosas',150,20,'UNIDAD','Ramo premium',1),
@@ -299,11 +300,11 @@ INSERT INTO PRODUCTS_SUPPLY(product_name,description,price,available_stock,expir
 ('Fertilizante','Nutriente floral',18,40,'2026-08-01','UNIDAD',0x1234,3);
 
 INSERT INTO SUPPLIER(company_name,ruc,phone,email,address,status,ubigeo_code,category_id) VALUES
-('Flores SAC','20111111111','987000111','ventas@flores.com','Av Floral 111','ACTIVO',1,1),
-('Deco Perú','20222222222','987000112','ventas@deco.com','Av Deco 222','ACTIVO',2,5),
-('Insumos Flor','20333333333','987000113','ventas@insumos.com','Av Insumos 333','ACTIVO',3,3),
-('Macetas Perú','20444444444','987000114','ventas@macetas.com','Av Macetas 444','ACTIVO',4,4),
-('Tulipanes SAC','20555555555','987000115','ventas@tulipanes.com','Av Tulipanes 555','ACTIVO',5,2);
+('Flores SAC','20111111111','987000111','ventas@flores.com','Av Floral 111','ACTIVO',150122,1),
+('Deco Perú','20222222222','987000112','ventas@deco.com','Av Deco 222','ACTIVO',070101,5),
+('Insumos Flor','20333333333','987000113','ventas@insumos.com','Av Insumos 333','ACTIVO',080101,3),
+('Macetas Perú','20444444444','987000114','ventas@macetas.com','Av Macetas 444','ACTIVO',040101,4),
+('Tulipanes SAC','20555555555','987000115','ventas@tulipanes.com','Av Tulipanes 555','ACTIVO',130101,2);
 
 INSERT INTO PURCHASES(supplier_id,employee_id,date_purchases,total_amount,status) VALUES
 (1,1,'2026-01-10',500,'COMPLETADO'),
@@ -367,3 +368,6 @@ INSERT INTO STOCK_MOVEMENT(movement_type,movement_reason,quantity,stock_before,s
 ('SALIDA','Producción',5,30,25,'Uso interno','2026-04-03',3,3,3,3,3,3),
 ('ENTRADA','Reposición',10,25,35,'Reposición almacén','2026-04-04',4,4,4,4,4,4),
 ('SALIDA','Venta especial',2,15,13,'Pedido VIP','2026-04-05',5,5,5,5,5,5);
+
+
+select * from customer;
