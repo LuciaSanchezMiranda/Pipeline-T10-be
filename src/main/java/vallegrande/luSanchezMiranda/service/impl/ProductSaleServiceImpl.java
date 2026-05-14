@@ -3,18 +3,18 @@ package vallegrande.luSanchezMiranda.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vallegrande.luSanchezMiranda.model.ProductSale;
-import vallegrande.luSanchezMiranda.repository.ProductRepository;
-import vallegrande.luSanchezMiranda.service.ProductService;
+import vallegrande.luSanchezMiranda.repository.ProductSaleRepository;
+import vallegrande.luSanchezMiranda.service.ProductSaleService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductSaleServiceImpl implements ProductSaleService {
 
     @Autowired
-    private ProductRepository repository;
+    private ProductSaleRepository repository;
 
     @Override
     public List<ProductSale> listar() {
@@ -54,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
             p.setAvailableStock(product.getAvailableStock());
             p.setUnitMeasurement(product.getUnitMeasurement());
             p.setDescription(product.getDescription());
+            // No copiar fechas de auditoría del request
 
             return repository.save(p);
         }
@@ -66,7 +67,6 @@ public class ProductServiceImpl implements ProductService {
         ProductSale p = listarPorId(id);
         if (p != null) {
             p.setDeletedAt(LocalDateTime.now());
-            p.setRestoredAt(null);
             return repository.save(p);
         }
         return null;
@@ -77,7 +77,6 @@ public class ProductServiceImpl implements ProductService {
         ProductSale p = listarPorId(id);
         if (p != null) {
             p.setDeletedAt(null);
-            p.setRestoredAt(LocalDateTime.now());
             return repository.save(p);
         }
         return null;

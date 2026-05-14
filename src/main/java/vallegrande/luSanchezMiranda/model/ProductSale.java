@@ -1,21 +1,13 @@
 package vallegrande.luSanchezMiranda.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "PRODUCTS_SALE")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductSale {
 
     @Id
@@ -50,21 +42,16 @@ public class ProductSale {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "restored_at")
-    private LocalDateTime restoredAt;
-
     @PrePersist
     protected void onCreate() {
-        LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now;
-        this.updatedAt = now;
-        if (this.availableStock == null) {
-            this.availableStock = 0;
+        createdAt = LocalDateTime.now();
+        if (availableStock == null) {
+            availableStock = 0;
         }
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 }
