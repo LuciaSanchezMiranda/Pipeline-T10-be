@@ -3,17 +3,17 @@ package vallegrande.luSanchezMiranda.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vallegrande.luSanchezMiranda.model.ProductSale;
-import vallegrande.luSanchezMiranda.service.ProductSaleService;
+import vallegrande.luSanchezMiranda.service.ProductService;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/product-sale")
-public class ProductSaleRest {
+@RequestMapping("/api/products")
+public class ProductRest {
 
     @Autowired
-    private ProductSaleService service;
+    private ProductService service;
 
     // LISTAR TODOS
     @GetMapping
@@ -22,13 +22,13 @@ public class ProductSaleRest {
     }
 
     // LISTAR ACTIVOS
-    @GetMapping("/activos")
+    @GetMapping("/active")
     public List<ProductSale> listarActivos() {
         return service.listarActivos();
     }
 
     // LISTAR INACTIVOS (ELIMINADOS)
-    @GetMapping("/inactivos")
+    @GetMapping("/inactive")
     public List<ProductSale> listarInactivos() {
         return service.listarInactivos();
     }
@@ -52,13 +52,13 @@ public class ProductSaleRest {
     }
 
     // ELIMINAR LOGICO
-    @PatchMapping("/eliminar/{id}")
+    @PatchMapping("/delete/{id}")
     public ProductSale eliminarLogico(@PathVariable Integer id) {
         return service.eliminarLogico(id);
     }
 
     // RESTAURAR
-    @PatchMapping("/restaurar/{id}")
+    @PatchMapping("/restore/{id}")
     public ProductSale restaurar(@PathVariable Integer id) {
         return service.restaurar(id);
     }
