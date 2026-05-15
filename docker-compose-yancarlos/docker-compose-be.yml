@@ -11,7 +11,7 @@ services:
     environment:
       - PORT=8080
       - SERVER_URL=http://localhost:8080
-      - DATABASE_URL=jdbc:sqlserver://sql-server:1433;databaseName=BerryControl;encrypt=true;trustServerCertificate=true
+      - DATABASE_URL=jdbc:sqlserver://sql-server:1433;databaseName=DF_BerryControl;encrypt=true;trustServerCertificate=true
       - DATABASE_USERNAME=sa
       - DATABASE_PASSWORD=Yancarlos123!
       - DATABASE_DRIVER=com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -28,3 +28,5 @@ networks:
 #  my-network:
 #    name: my-network   # red compartida, visible desde ambos compose
 #    driver: bridge
+
+# Ruta para acceder a Swagger UI: http://localhost:8080/swagger-ui.html
