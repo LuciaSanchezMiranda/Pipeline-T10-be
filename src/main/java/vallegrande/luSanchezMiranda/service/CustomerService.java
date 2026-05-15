@@ -9,9 +9,9 @@ public interface CustomerService {
     // Operaciones de lectura
     List<Customer> listar();
     Customer listarPorId(Integer id);
-    List<Customer> listarPorEstado(String status);
+    List<Customer> listarPorEstado(Boolean status);
     List<Customer> listarPorTipo(String type);
-    List<Customer> listarPorEstadoYTipo(String status, String type);
+    List<Customer> listarPorEstadoYTipo(Boolean status, String type);
 
     // Operaciones de persistencia
     Customer guardar(Customer customer); // Crear nuevo

@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-    List<Customer> findByStatusIgnoreCase(String status);
+    List<Customer> findByStatus(Boolean status);
     List<Customer> findByCustomerTypeIgnoreCase(String customerType);
-    List<Customer> findByStatusIgnoreCaseAndCustomerTypeIgnoreCase(String status, String customerType);
+    List<Customer> findByStatusAndCustomerTypeIgnoreCase(Boolean status, String customerType);
 
 }

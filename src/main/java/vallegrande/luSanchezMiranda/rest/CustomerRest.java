@@ -22,7 +22,7 @@ public class CustomerRest {
     @Operation(summary = "Listar clientes", description = "Obtiene la lista completa de clientes con filtros opcionales por estado y tipo.")
     @GetMapping
     public List<Customer> listar(
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Boolean status,
             @RequestParam(required = false) String type) {
         if (status != null && type != null) {
             return service.listarPorEstadoYTipo(status, type);
@@ -43,7 +43,7 @@ public class CustomerRest {
 
     // LISTAR POR ESTADO (Mantenido por retrocompatibilidad)
     @GetMapping("/estado/{status}")
-    public List<Customer> listarPorEstado(@PathVariable String status) {
+    public List<Customer> listarPorEstado(@PathVariable Boolean status) {
         return service.listarPorEstado(status);
     }
 

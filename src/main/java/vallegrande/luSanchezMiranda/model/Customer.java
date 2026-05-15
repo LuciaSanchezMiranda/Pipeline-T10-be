@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -35,7 +36,7 @@ public class Customer {
     @Column(name = "customer_type", length = 20, nullable = false)
     private String customerType;
 
-    @Column(name = "document_type", length = 5, nullable = false)
+    @Column(name = "document_type", columnDefinition = "char(3)", nullable = false)
     private String documentType;
 
     @Column(name = "document_number", length = 15, nullable = false, unique = true)
@@ -47,11 +48,11 @@ public class Customer {
     @Column(name = "phone", columnDefinition = "char(9)", nullable = false)
     private String phone;
 
-    @Column(name = "address", length = 200, nullable = false, columnDefinition = "varchar(200)")
+    @Column(name = "address", length = 200, nullable = false, columnDefinition = "nvarchar(200)")
     private String address;
 
-    @Column(name = "status", length = 10, nullable = false)
-    private String status = "activo";
+    @Column(name = "status", nullable = false)
+    private Boolean status = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -67,16 +68,16 @@ public class Customer {
 
     @PrePersist
     protected void onCreate() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("America/Lima"));
         this.createdAt = now;
         this.updatedAt = now;
         if (this.status == null) {
-            this.status = "activo";
+            this.status = true;
         }
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(ZoneId.of("America/Lima"));
     }
 }

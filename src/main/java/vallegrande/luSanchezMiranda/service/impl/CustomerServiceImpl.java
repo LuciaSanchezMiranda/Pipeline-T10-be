@@ -10,6 +10,7 @@ import vallegrande.luSanchezMiranda.service.CustomerService;
 import java.util.List;
 import java.util.Optional;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -30,10 +31,10 @@ public class CustomerServiceImpl implements CustomerService {
         return repository.findById(id).orElse(null);
     }
 
-    // Filtrar clientes por estado (activo/inactivo)
+    // Filtrar clientes por estado (true/false)
     @Override
-    public List<Customer> listarPorEstado(String status) {
-        return repository.findByStatusIgnoreCase(status);
+    public List<Customer> listarPorEstado(Boolean status) {
+        return repository.findByStatus(status);
     }
 
     // Filtrar clientes por tipo (Natural/Jurídico)
@@ -44,8 +45,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     // Filtrar clientes por estado y tipo simultáneamente
     @Override
-    public List<Customer> listarPorEstadoYTipo(String status, String type) {
-        return repository.findByStatusIgnoreCaseAndCustomerTypeIgnoreCase(status, type);
+    public List<Customer> listarPorEstadoYTipo(Boolean status, String type) {
+        return repository.findByStatusAndCustomerTypeIgnoreCase(status, type);
     }
 
     // Crear un nuevo cliente (asegurando que el ID sea nulo para generar uno nuevo)
@@ -54,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer guardar(Customer customer) {
         customer.setIdCustomer(null); // Forzar creación de nuevo registro
         if (customer.getStatus() == null) {
-            customer.setStatus("activo");
+            customer.setStatus(true);
         }
         return repository.save(customer);
     }
@@ -86,8 +87,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer eliminarLogico(Integer id) {
         return repository.findById(id).map(c -> {
-            c.setStatus("inactivo");
-            c.setDeletedAt(LocalDateTime.now());
+            c.setStatus(false);
+            c.setDeletedAt(LocalDateTime.now(ZoneId.of("America/Lima")));
             c.setRestoredAt(null);
             return repository.save(c);
         }).orElse(null);
@@ -98,8 +99,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer restaurar(Integer id) {
         return repository.findById(id).map(c -> {
-            c.setStatus("activo");
-            c.setRestoredAt(LocalDateTime.now());
+            c.setStatus(true);
+            c.setRestoredAt(LocalDateTime.now(ZoneId.of("America/Lima")));
             c.setDeletedAt(null);
             return repository.save(c);
         }).orElse(null);

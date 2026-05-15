@@ -19,7 +19,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 # docker run -d --name springboot-sqlserver -p 8085:8085 luci4sanchez2007/springboot-sqlserver:1.0
 
-# docker push luci4sanchez2007/springboot-sqlserver:1.0
+# docker push luci4sanchez2007/springboot-sqlserver:3.0
 
 
 # DESCARGAR Y SUBIR MAVEN A TU USUARIO DOCKERHUB
