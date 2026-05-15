@@ -27,13 +27,13 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public List<Supplier> listarPorEstado(String status) {
+    public List<Supplier> listarPorEstado(Boolean status) {
         return repository.findByStatus(status);
     }
 
     @Override
     public Supplier guardar(Supplier supplier) {
-        supplier.setStatus("activo");
+        supplier.setStatus(true);
         return repository.save(supplier);
     }
 
@@ -44,14 +44,13 @@ public class SupplierServiceImpl implements SupplierService {
         if (existente.isPresent()) {
             Supplier s = existente.get();
 
-            s.setUbigeoCode(supplier.getUbigeoCode());
-            s.setCategoryId(supplier.getCategoryId());
+            s.setUbigeo(supplier.getUbigeo());
+            s.setCategory(supplier.getCategory());
             s.setCompanyName(supplier.getCompanyName());
             s.setRuc(supplier.getRuc());
             s.setPhone(supplier.getPhone());
             s.setEmail(supplier.getEmail());
             s.setAddress(supplier.getAddress());
-            // No copiar fechas de auditoría del request, se manejan con JPA callbacks
 
             return repository.save(s);
         }
@@ -63,7 +62,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier eliminarLogico(Integer id) {
         Supplier s = listarPorId(id);
         if (s != null) {
-            s.setStatus("inactivo");
+            s.setStatus(false);
             s.setDeletedAt(LocalDateTime.now());
             return repository.save(s);
         }
@@ -74,7 +73,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier restaurar(Integer id) {
         Supplier s = listarPorId(id);
         if (s != null) {
-            s.setStatus("activo");
+            s.setStatus(true);
             s.setDeletedAt(null);
             s.setRestoredAt(LocalDateTime.now());
             return repository.save(s);

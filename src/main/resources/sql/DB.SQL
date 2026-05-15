@@ -265,15 +265,48 @@ CONSTRAINT FK_STOCK_PURCHASE FOREIGN KEY(id_purchase) REFERENCES PURCHASES(id_pu
 );
 
 -- =====================================================
--- UBIGEO (5 registros - tabla apoyo)
+-- UBIGEO ( registros - tabla apoyo)
 -- =====================================================
 INSERT INTO UBIGEO(ubigeo_code, department, province, district) VALUES
-(150122, 'Lima', 'Lima', 'Miraflores'),
-(070101, 'Callao', 'Callao', 'Bellavista'),
-(080101, 'Cusco', 'Cusco', 'Wanchaq'),
-(040101, 'Arequipa', 'Arequipa', 'Cayma'),
-(130101, 'La Libertad', 'Trujillo', 'Víctor Larco');
-
+(150122, 'Lima',         'Lima',      'Miraflores'),
+(070101, 'Callao',       'Callao',    'Bellavista'),
+(080101, 'Cusco',        'Cusco',     'Wanchaq'),
+(040101, 'Arequipa',     'Arequipa',  'Cayma'),
+(130101, 'La Libertad',  'Trujillo',  'Víctor Larco'),
+(150101, 'Lima',         'Lima',      'Lima Cercado'),
+(150102, 'Lima',         'Lima',      'Breña'),
+(150103, 'Lima',         'Lima',      'La Victoria'),
+(150104, 'Lima',         'Lima',      'San Isidro'),
+(150105, 'Lima',         'Lima',      'Surco'),
+(150106, 'Lima',         'Lima',      'Barranco'),
+(150107, 'Lima',         'Lima',      'Chorrillos'),
+(150108, 'Lima',         'Lima',      'San Borja'),
+(150109, 'Lima',         'Lima',      'Surquillo'),
+(150110, 'Lima',         'Lima',      'Magdalena'),
+(150111, 'Lima',         'Lima',      'Pueblo Libre'),
+(150112, 'Lima',         'Lima',      'Jesús María'),
+(150113, 'Lima',         'Lima',      'Lince'),
+(150114, 'Lima',         'Lima',      'San Miguel'),
+(150115, 'Lima',         'Lima',      'Ate'),
+(150116, 'Lima',         'Lima',      'San Juan de Lurigancho'),
+(150117, 'Lima',         'Lima',      'Comas'),
+(150118, 'Lima',         'Lima',      'Los Olivos'),
+(150119, 'Lima',         'Lima',      'Independencia'),
+(150120, 'Lima',         'Lima',      'Rímac'),
+(150301, 'Lima',         'Lima',      'Santa Anita'),
+(150401, 'Lima',         'Lima',      'El Agustino'),
+(070201, 'Callao',       'Callao',    'La Punta'),
+(070301, 'Callao',       'Callao',    'La Perla'),
+(070401, 'Callao',       'Callao',    'Carmen de la Legua'),
+(080201, 'Cusco',        'Cusco',     'San Sebastián'),
+(080301, 'Cusco',        'Cusco',     'San Jerónimo'),
+(080401, 'Cusco',        'Cusco',     'Saylla'),
+(040201, 'Arequipa',     'Arequipa',  'Cerro Colorado'),
+(040301, 'Arequipa',     'Arequipa',  'Sachaca'),
+(040401, 'Arequipa',     'Arequipa',  'Yanahuara'),
+(130201, 'La Libertad',  'Trujillo',  'El Porvenir'),
+(130301, 'La Libertad',  'Trujillo',  'Florencia de Mora'),
+(130401, 'La Libertad',  'Trujillo',  'La Esperanza');
 -- =====================================================
 -- CATEGORY (5 registros - tabla apoyo)
 -- =====================================================
@@ -348,26 +381,26 @@ INSERT INTO EMPLOYEE(ubigeo_code,role_id,document_type,document_number,name,last
 -- PRODUCTS_SALE (20 registros)
 -- =====================================================
 INSERT INTO PRODUCTS_SALE(product_name, price, available_stock, unit_measurement, description, category_id) VALUES
-('Arándano Selecto',          25.00,  150, 'KG',    'Arándano premium exportación',         1),
-('Frutilla Fresca',           15.00,  200, 'KG',    'Frutilla cosechada del sur',            1),
-('Frambuesa Natural',         20.00,  180, 'KG',    'Frambuesa jugosa y dulce',              2),
-('Mora Silvestre',            18.00,  120, 'KG',    'Mora recolectada artesanal',            2),
-('Mix Berries Sur',           30.00,   90, 'KG',    'Mezcla de berries del sur',             3),
-('Arándano Congelado',        22.00,  300, 'KG',    'Arándano IQF listo exportar',           1),
-('Frutilla Congelada',        14.00,  250, 'KG',    'Frutilla IQF seleccionada',             1),
-('Frambuesa Congelada',       19.00,  210, 'KG',    'Frambuesa IQF premium',                 2),
-('Mora Congelada',            17.00,  190, 'KG',    'Mora IQF recolectada sur',              2),
-('Arándano Deshidratado',     35.00,   80, 'KG',    'Arándano seco snack natural',           3),
-('Frutilla Deshidratada',     28.00,   70, 'KG',    'Frutilla seca seleccionada',            3),
-('Frambuesa Deshidratada',    32.00,   60, 'KG',    'Frambuesa seca premium sur',            3),
-('Mora Deshidratada',         27.00,   65, 'KG',    'Mora seca artesanal del sur',           4),
-('Mermelada Arándano',        12.00,  100, 'UNIDAD','Mermelada artesanal arándano',          4),
-('Mermelada Frutilla',        10.00,  120, 'UNIDAD','Mermelada artesanal frutilla',          4),
-('Mermelada Mix Berries',     13.00,   90, 'UNIDAD','Mermelada mezcla berries sur',          5),
-('Jugo Arándano Natural',     18.00,   75, 'LITRO', 'Jugo puro arándano sin azúcar',        5),
-('Jugo Frutilla Natural',     15.00,   80, 'LITRO', 'Jugo puro frutilla sin azúcar',        5),
-('Pack Berries Frescos',      45.00,   50, 'UNIDAD','Pack surtido berries frescos sur',      6),
-('Pack Berries Congelados',   40.00,   55, 'UNIDAD','Pack surtido berries congelados sur',   6);
+('Arándano Selecto',        25.00, 150, 'KG',     'Arándano premium exportación',        1),
+('Frutilla Fresca',         15.00, 200, 'KG',     'Frutilla cosechada del sur',          1),
+('Frambuesa Natural',       20.00, 180, 'KG',     'Frambuesa jugosa y dulce',            2),
+('Mora Silvestre',          18.00, 120, 'KG',     'Mora recolectada artesanal',          2),
+('Mix Berries Sur',         30.00,  90, 'KG',     'Mezcla de berries del sur',           3),
+('Arándano Congelado',      22.00, 300, 'KG',     'Arándano IQF listo exportar',         1),
+('Frutilla Congelada',      14.00, 250, 'KG',     'Frutilla IQF seleccionada',           1),
+('Frambuesa Congelada',     19.00, 210, 'KG',     'Frambuesa IQF premium',               2),
+('Mora Congelada',          17.00, 190, 'KG',     'Mora IQF recolectada sur',            2),
+('Arándano Deshidratado',   35.00,  80, 'KG',     'Arándano seco snack natural',         3),
+('Frutilla Deshidratada',   28.00,  70, 'KG',     'Frutilla seca seleccionada',          3),
+('Frambuesa Deshidratada',  32.00,  60, 'KG',     'Frambuesa seca premium sur',          3),
+('Mora Deshidratada',       27.00,  65, 'KG',     'Mora seca artesanal del sur',         4),
+('Mermelada Arándano',      12.00, 100, 'UNIDAD', 'Mermelada artesanal arándano',        4),
+('Mermelada Frutilla',      10.00, 120, 'UNIDAD', 'Mermelada artesanal frutilla',        4),
+('Mermelada Mix Berries',   13.00,  90, 'UNIDAD', 'Mermelada mezcla berries sur',        5),
+('Jugo Arándano Natural',   18.00,  75, 'LITRO',  'Jugo puro arándano sin azúcar',       5),
+('Jugo Frutilla Natural',   15.00,  80, 'LITRO',  'Jugo puro frutilla sin azúcar',       5),
+('Pack Berries Frescos',    45.00,  50, 'UNIDAD', 'Pack surtido berries frescos sur',    5), 
+('Pack Berries Congelados', 40.00,  55, 'UNIDAD', 'Pack surtido berries congelados sur', 5); 
 
 -- =====================================================
 -- PRODUCTS_SUPPLY (20 registros)
@@ -643,5 +676,3 @@ INSERT INTO STOCK_MOVEMENT(movement_type,movement_reason,quantity,stock_before,s
 ('ENTRADA','Reposición urgente',14,20,34,'Reposición rápida','2026-04-18',18,18,18,18,18,18),
 ('SALIDA','Venta directa',1,13,12,'Cliente mostrador','2026-04-19',19,19,19,19,19,19),
 ('ENTRADA','Compra mensual',30,50,80,'Ingreso mensual','2026-04-20',20,20,20,20,20,20);
-
-select * from customer;

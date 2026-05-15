@@ -28,7 +28,7 @@ public class SupplierRest {
 
     // LISTAR POR ESTADO
     @GetMapping("/estado/{status}")
-    public List<Supplier> listarPorEstado(@PathVariable String status) {
+    public List<Supplier> listarPorEstado(@PathVariable Boolean status) {
         return service.listarPorEstado(status);
     }
 

@@ -22,17 +22,17 @@ public class Supplier {
     @Column(name = "ruc", length = 11, nullable = false)
     private String ruc;
 
-    @Column(name = "phone", length = 9, nullable = false)
-    private String phone;
+    @Column(name = "phone", nullable = false)
+    private Long phone;
 
-    @Column(name = "email", length = 100, nullable = false)
+    @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email;
 
     @Column(name = "address", length = 200, nullable = false)
     private String address;
 
-    @Column(name = "status", length = 20, nullable = false)
-    private String status = "activo";
+    @Column(name = "status", nullable = false)
+    private Boolean status = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -46,17 +46,19 @@ public class Supplier {
     @Column(name = "restored_at")
     private LocalDateTime restoredAt;
 
-    @Column(name = "ubigeo_code", nullable = false)
-    private Integer ubigeoCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ubigeo_code", nullable = false)
+    private Ubigeo ubigeo;
 
-    @Column(name = "category_id", nullable = false)
-    private Integer categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         if (status == null) {
-            status = "activo";
+            status = true;
         }
     }
 

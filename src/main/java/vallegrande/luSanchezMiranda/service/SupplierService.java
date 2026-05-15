@@ -8,7 +8,7 @@ public interface SupplierService {
 
     List<Supplier> listar();
     Supplier listarPorId(Integer id);
-    List<Supplier> listarPorEstado(String status);
+    List<Supplier> listarPorEstado(Boolean status);
 
     Supplier guardar(Supplier supplier);
     Supplier actualizar(Integer id, Supplier supplier);

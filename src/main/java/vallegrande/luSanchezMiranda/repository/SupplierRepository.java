@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 
-    List<Supplier> findByStatus(String status);
+    List<Supplier> findByStatus(Boolean status);
 
 }
