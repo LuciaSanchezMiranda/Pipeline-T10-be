@@ -2,8 +2,8 @@ package vallegrande.luSanchezMiranda.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vallegrande.luSanchezMiranda.model.Supplier;
-import vallegrande.luSanchezMiranda.repository.SupplierRepository;
+import vallegrande.luSanchezMiranda.model.*;
+import vallegrande.luSanchezMiranda.repository.*;
 import vallegrande.luSanchezMiranda.service.SupplierService;
 
 import java.time.LocalDateTime;
@@ -16,25 +16,43 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private SupplierRepository repository;
 
+    @Autowired
+    private UbigeoRepository ubigeoRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public List<Supplier> listar() {
-        return repository.findAll();
+        return repository.findAllWithDetails();
     }
 
     @Override
     public Supplier listarPorId(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findByIdWithDetails(id).orElse(null);
     }
 
     @Override
     public List<Supplier> listarPorEstado(Boolean status) {
-        return repository.findByStatus(status);
+        return repository.findByStatusWithDetails(status);
     }
 
     @Override
     public Supplier guardar(Supplier supplier) {
+        // Buscar Ubigeo y Category completos por su ID del JSON recibido
+        if (supplier.getUbigeo() != null) {
+            Ubigeo ubigeo = ubigeoRepository.findById(supplier.getUbigeo().getUbigeoCode()).orElse(null);
+            supplier.setUbigeo(ubigeo);
+        }
+        if (supplier.getCategory() != null) {
+            Category category = categoryRepository.findById(supplier.getCategory().getCategoryId()).orElse(null);
+            supplier.setCategory(category);
+        }
         supplier.setStatus(true);
-        return repository.save(supplier);
+
+        Supplier saved = repository.save(supplier);
+        // Re-fetch con JOIN FETCH para retornar todos los campos (sin nulls)
+        return repository.findByIdWithDetails(saved.getSupplierId()).orElse(saved);
     }
 
     @Override
@@ -44,15 +62,24 @@ public class SupplierServiceImpl implements SupplierService {
         if (existente.isPresent()) {
             Supplier s = existente.get();
 
-            s.setUbigeo(supplier.getUbigeo());
-            s.setCategory(supplier.getCategory());
+            // Buscar Ubigeo y Category completos por su ID del JSON recibido
+            if (supplier.getUbigeo() != null) {
+                Ubigeo ubigeo = ubigeoRepository.findById(supplier.getUbigeo().getUbigeoCode()).orElse(null);
+                s.setUbigeo(ubigeo);
+            }
+            if (supplier.getCategory() != null) {
+                Category category = categoryRepository.findById(supplier.getCategory().getCategoryId()).orElse(null);
+                s.setCategory(category);
+            }
             s.setCompanyName(supplier.getCompanyName());
             s.setRuc(supplier.getRuc());
             s.setPhone(supplier.getPhone());
             s.setEmail(supplier.getEmail());
             s.setAddress(supplier.getAddress());
 
-            return repository.save(s);
+            Supplier saved = repository.save(s);
+            // Re-fetch con JOIN FETCH para retornar todos los campos (sin nulls)
+            return repository.findByIdWithDetails(saved.getSupplierId()).orElse(saved);
         }
 
         return null;
@@ -60,24 +87,27 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier eliminarLogico(Integer id) {
-        Supplier s = listarPorId(id);
+        Supplier s = repository.findById(id).orElse(null);
         if (s != null) {
             s.setStatus(false);
             s.setDeletedAt(LocalDateTime.now());
-            return repository.save(s);
+            Supplier saved = repository.save(s);
+            return repository.findByIdWithDetails(saved.getSupplierId()).orElse(saved);
         }
         return null;
     }
 
     @Override
     public Supplier restaurar(Integer id) {
-        Supplier s = listarPorId(id);
+        Supplier s = repository.findById(id).orElse(null);
         if (s != null) {
             s.setStatus(true);
             s.setDeletedAt(null);
             s.setRestoredAt(LocalDateTime.now());
-            return repository.save(s);
+            Supplier saved = repository.save(s);
+            return repository.findByIdWithDetails(saved.getSupplierId()).orElse(saved);
         }
         return null;
     }
 }
+

@@ -15,4 +15,4 @@ public interface SupplierService {
 
     Supplier eliminarLogico(Integer id);
     Supplier restaurar(Integer id);
-}
+}
