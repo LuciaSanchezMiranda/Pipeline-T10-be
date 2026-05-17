@@ -42,9 +42,9 @@ public class SaleRest {
         return service.actualizar(id, sale);
     }
 
-    @Operation(summary = "Eliminar venta")
+    @Operation(summary = "Eliminación lógica de venta (anular)")
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
-        service.eliminar(id);
+    public Sale eliminar(@PathVariable Integer id) {
+        return service.eliminar(id);
     }
 }

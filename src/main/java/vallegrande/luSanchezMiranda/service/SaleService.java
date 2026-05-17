@@ -8,5 +8,5 @@ public interface SaleService {
     Sale listarPorId(Integer id);
     Sale guardar(Sale sale);
     Sale actualizar(Integer id, Sale sale);
-    void eliminar(Integer id);
+    Sale eliminar(Integer id);
 }
