@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vallegrande.luSanchezMiranda.model.Sale;
-import vallegrande.luSanchezMiranda.repository.SaleDetailRepository;
 import vallegrande.luSanchezMiranda.repository.SaleRepository;
 import vallegrande.luSanchezMiranda.service.SaleService;
 
@@ -15,9 +14,6 @@ public class SaleServiceImpl implements SaleService {
 
     @Autowired
     private SaleRepository repository;
-
-    @Autowired
-    private SaleDetailRepository detailRepository;
 
     @Transactional(readOnly = true)
     @Override

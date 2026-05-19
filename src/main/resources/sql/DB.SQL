@@ -71,6 +71,11 @@ CREATE TABLE CUSTOMER(
     deleted_at        DATETIME2     NULL,
     restored_at       DATETIME2     NULL,
     ubigeo_code       INT           NOT NULL,
+    CONSTRAINT CHK_CUSTOMER_TYPE      CHECK (customer_type IN ('Natural', 'Empresa')),
+    CONSTRAINT CHK_CUSTOMER_DOC_TYPE  CHECK (document_type IN ('DNI', 'RUC', 'CE')),
+    CONSTRAINT CHK_CUSTOMER_PHONE     CHECK (LEN(phone) = 9),
+    CONSTRAINT CHK_CUSTOMER_EMAIL     CHECK (email LIKE '%@%.%'),
+
     CONSTRAINT FK_CUSTOMER_UBIGEO FOREIGN KEY(ubigeo_code) REFERENCES UBIGEO(ubigeo_code)
 );
 
@@ -108,6 +113,10 @@ CREATE TABLE PRODUCTS_SALE(
     deleted_at       DATETIME      NULL,
     restored_at      DATETIME      NULL,
     category_id      INT           NOT NULL,
+    CONSTRAINT CHK_PRODUCTS_SALE_PRICE        CHECK (price > 0),
+    CONSTRAINT CHK_PRODUCTS_SALE_STOCK        CHECK (available_stock >= 0),
+    CONSTRAINT CHK_PRODUCTS_SALE_UNIT         CHECK (unit_measurement IN ('UNIDAD', 'KG', 'LITRO', 'SACO', 'SOBRE', 'ROLLO')),
+
     CONSTRAINT FK_PRODUCTS_SALE_CATEGORY FOREIGN KEY(category_id) REFERENCES CATEGORY(category_id)
 );
 
@@ -142,6 +151,11 @@ CREATE TABLE SUPPLIER(
     updated_at   DATETIME      NULL,
     deleted_at   DATETIME      NULL,
     restored_at  DATETIME      NULL,
+    CONSTRAINT CHK_SUPPLIER_RUC       CHECK (LEN(ruc) = 11),
+    CONSTRAINT CHK_SUPPLIER_PHONE     CHECK (phone > 0),
+    CONSTRAINT CHK_SUPPLIER_EMAIL     CHECK (email LIKE '%@%.%'),
+    CONSTRAINT CHK_SUPPLIER_STATUS    CHECK (status IN (0, 1)),
+
     CONSTRAINT FK_SUPPLIER_UBIGEO   FOREIGN KEY(ubigeo_code) REFERENCES UBIGEO(ubigeo_code),
     CONSTRAINT FK_SUPPLIER_CATEGORY FOREIGN KEY(category_id) REFERENCES CATEGORY(category_id)
 );

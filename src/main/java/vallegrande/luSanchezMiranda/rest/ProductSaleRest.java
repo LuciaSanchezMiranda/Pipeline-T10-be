@@ -1,5 +1,6 @@
 package vallegrande.luSanchezMiranda.rest;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vallegrande.luSanchezMiranda.model.ProductSale;
@@ -41,13 +42,13 @@ public class ProductSaleRest {
 
     // GUARDAR
     @PostMapping
-    public ProductSale guardar(@RequestBody ProductSale product) {
+    public ProductSale guardar(@Valid @RequestBody ProductSale product) {
         return service.guardar(product);
     }
 
     // ACTUALIZAR
     @PutMapping("/{id}")
-    public ProductSale actualizar(@PathVariable Integer id, @RequestBody ProductSale product) {
+    public ProductSale actualizar(@PathVariable Integer id, @Valid @RequestBody ProductSale product) {
         return service.actualizar(id, product);
     }
 

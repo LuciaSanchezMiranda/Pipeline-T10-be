@@ -2,6 +2,7 @@ package vallegrande.luSanchezMiranda.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vallegrande.luSanchezMiranda.model.Customer;
@@ -56,14 +57,14 @@ public class CustomerRest {
     // CREAR
     @Operation(summary = "Crear nuevo cliente", description = "Registra un nuevo cliente en el sistema.")
     @PostMapping
-    public Customer guardar(@RequestBody Customer customer) {
+    public Customer guardar(@Valid @RequestBody Customer customer) {
         return service.guardar(customer);
     }
 
     // EDITAR
     @Operation(summary = "Actualizar cliente", description = "Modifica los datos de un cliente existente.")
     @PutMapping("/{id}")
-    public Customer actualizar(@PathVariable Integer id, @RequestBody Customer customer) {
+    public Customer actualizar(@PathVariable Integer id, @Valid @RequestBody Customer customer) {
         return service.actualizar(id, customer);
     }
 

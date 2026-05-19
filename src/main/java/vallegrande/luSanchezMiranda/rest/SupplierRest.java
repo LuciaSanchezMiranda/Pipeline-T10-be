@@ -1,5 +1,6 @@
 package vallegrande.luSanchezMiranda.rest;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vallegrande.luSanchezMiranda.model.Supplier;
@@ -34,13 +35,13 @@ public class SupplierRest {
 
     // CREAR
     @PostMapping
-    public Supplier guardar(@RequestBody Supplier supplier) {
+    public Supplier guardar(@Valid @RequestBody Supplier supplier) {
         return service.guardar(supplier);
     }
 
     // EDITAR
     @PutMapping("/{id}")
-    public Supplier actualizar(@PathVariable Integer id, @RequestBody Supplier supplier) {
+    public Supplier actualizar(@PathVariable Integer id, @Valid @RequestBody Supplier supplier) {
         return service.actualizar(id, supplier);
     }
 
