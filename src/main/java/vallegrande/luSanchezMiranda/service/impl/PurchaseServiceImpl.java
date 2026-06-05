@@ -9,6 +9,7 @@ import vallegrande.luSanchezMiranda.service.PurchaseService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -44,36 +45,53 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     @Transactional
     public Purchase guardar(Purchase purchase) {
-        // Cargar Supplier y Employee correspondientes
-        if (purchase.getSupplier() != null) {
-            Supplier supplier = supplierRepository.findById(purchase.getSupplier().getSupplierId()).orElse(null);
-            purchase.setSupplier(supplier);
+        Objects.requireNonNull(purchase, "La compra no puede ser nula");
+
+        if (purchase.getSupplier() == null || purchase.getSupplier().getSupplierId() == null) {
+            throw new IllegalArgumentException("Debe indicar un proveedor válido");
         }
-        if (purchase.getEmployee() != null) {
-            Employee employee = employeeRepository.findById(purchase.getEmployee().getEmployeeId()).orElse(null);
-            purchase.setEmployee(employee);
+        if (purchase.getEmployee() == null || purchase.getEmployee().getEmployeeId() == null) {
+            throw new IllegalArgumentException("Debe indicar un empleado válido");
         }
+        if (purchase.getDetails() == null || purchase.getDetails().isEmpty()) {
+            throw new IllegalArgumentException("La compra debe tener al menos un detalle");
+        }
+
+        Supplier supplier = supplierRepository.findById(purchase.getSupplier().getSupplierId())
+                .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
+        Employee employee = employeeRepository.findById(purchase.getEmployee().getEmployeeId())
+                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
+
+        purchase.setSupplier(supplier);
+        purchase.setEmployee(employee);
 
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         if (purchase.getDetails() != null) {
             for (PurchaseDetail detail : purchase.getDetails()) {
+                if (detail == null || detail.getProduct() == null || detail.getProduct().getProductId() == null) {
+                    throw new IllegalArgumentException("Cada detalle debe incluir un producto válido");
+                }
+                if (detail.getAmountProduct() == null || detail.getAmountProduct() <= 0) {
+                    throw new IllegalArgumentException("La cantidad del detalle debe ser mayor a cero");
+                }
+                if (detail.getUnitPrice() == null || detail.getUnitPrice().compareTo(BigDecimal.ZERO) < 0) {
+                    throw new IllegalArgumentException("El precio unitario del detalle no es válido");
+                }
+
                 detail.setPurchase(purchase);
-                if (detail.getProduct() != null) {
-                    ProductSupply product = productSupplyRepository.findById(detail.getProduct().getProductId()).orElse(null);
-                    detail.setProduct(product);
+                ProductSupply product = productSupplyRepository.findById(detail.getProduct().getProductId())
+                        .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+                detail.setProduct(product);
 
-                    // Recalcular costos
-                    BigDecimal cost = detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getAmountProduct()));
-                    detail.setTotalCost(cost);
-                    totalAmount = totalAmount.add(cost);
+                BigDecimal cost = detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getAmountProduct()));
+                detail.setTotalCost(cost);
+                totalAmount = totalAmount.add(cost);
 
-                    // Afectar stock si el estado es COMPLETADO
-                    if ("COMPLETADO".equalsIgnoreCase(purchase.getStatus()) && product != null) {
-                        BigDecimal newStock = product.getAvailableStock().add(BigDecimal.valueOf(detail.getAmountProduct()));
-                        product.setAvailableStock(newStock);
-                        productSupplyRepository.save(product);
-                    }
+                if ("COMPLETADO".equalsIgnoreCase(purchase.getStatus())) {
+                    BigDecimal newStock = product.getAvailableStock().add(BigDecimal.valueOf(detail.getAmountProduct()));
+                    product.setAvailableStock(newStock);
+                    productSupplyRepository.save(product);
                 }
             }
         }
@@ -103,12 +121,14 @@ public class PurchaseServiceImpl implements PurchaseService {
             }
 
             // Actualizar datos básicos
-            if (purchase.getSupplier() != null) {
-                Supplier supplier = supplierRepository.findById(purchase.getSupplier().getSupplierId()).orElse(null);
+            if (purchase.getSupplier() != null && purchase.getSupplier().getSupplierId() != null) {
+                Supplier supplier = supplierRepository.findById(purchase.getSupplier().getSupplierId())
+                        .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
                 existente.setSupplier(supplier);
             }
-            if (purchase.getEmployee() != null) {
-                Employee employee = employeeRepository.findById(purchase.getEmployee().getEmployeeId()).orElse(null);
+            if (purchase.getEmployee() != null && purchase.getEmployee().getEmployeeId() != null) {
+                Employee employee = employeeRepository.findById(purchase.getEmployee().getEmployeeId())
+                        .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
                 existente.setEmployee(employee);
             }
             if (purchase.getDatePurchases() != null) {
@@ -125,17 +145,26 @@ public class PurchaseServiceImpl implements PurchaseService {
 
                 BigDecimal totalAmount = BigDecimal.ZERO;
                 for (PurchaseDetail detail : purchase.getDetails()) {
-                    detail.setPurchase(existente);
-                    if (detail.getProduct() != null) {
-                        ProductSupply product = productSupplyRepository.findById(detail.getProduct().getProductId()).orElse(null);
-                        detail.setProduct(product);
-
-                        BigDecimal cost = detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getAmountProduct()));
-                        detail.setTotalCost(cost);
-                        totalAmount = totalAmount.add(cost);
-
-                        existente.getDetails().add(detail);
+                    if (detail == null || detail.getProduct() == null || detail.getProduct().getProductId() == null) {
+                        throw new IllegalArgumentException("Cada detalle debe incluir un producto válido");
                     }
+                    if (detail.getAmountProduct() == null || detail.getAmountProduct() <= 0) {
+                        throw new IllegalArgumentException("La cantidad del detalle debe ser mayor a cero");
+                    }
+                    if (detail.getUnitPrice() == null || detail.getUnitPrice().compareTo(BigDecimal.ZERO) < 0) {
+                        throw new IllegalArgumentException("El precio unitario del detalle no es válido");
+                    }
+
+                    detail.setPurchase(existente);
+                    ProductSupply product = productSupplyRepository.findById(detail.getProduct().getProductId())
+                            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+                    detail.setProduct(product);
+
+                    BigDecimal cost = detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getAmountProduct()));
+                    detail.setTotalCost(cost);
+                    totalAmount = totalAmount.add(cost);
+
+                    existente.getDetails().add(detail);
                 }
                 existente.setTotalAmount(totalAmount);
             } else {
