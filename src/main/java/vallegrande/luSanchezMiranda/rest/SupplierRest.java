@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/supplier")
+// Controlador REST para gestionar proveedores y su contrato de entrada simplificado.
 public class SupplierRest {
 
     @Autowired
@@ -36,7 +37,7 @@ public class SupplierRest {
         return service.listarPorEstado(status);
     }
 
-    // CREAR
+    // Crea un proveedor usando solo los campos que el cliente puede editar manualmente.
     @PostMapping
     public Supplier guardar(@Valid @RequestBody SupplierRequest request) {
         return service.guardar(toEntity(request));
@@ -48,6 +49,7 @@ public class SupplierRest {
         return service.actualizar(id, toEntity(request));
     }
 
+    // Convierte el DTO de entrada al modelo de persistencia antes de enviarlo al servicio.
     private Supplier toEntity(SupplierRequest request) {
         Supplier supplier = new Supplier();
         supplier.setCompanyName(request.getCompanyName());

@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "PURCHASES_DETAILS")
+// Representa cada línea de detalle de una compra: producto, cantidad, precio y costo total.
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

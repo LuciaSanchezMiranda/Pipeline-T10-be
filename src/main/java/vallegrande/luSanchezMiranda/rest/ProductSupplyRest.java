@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/product-supply")
+// Controlador para administrar productos de abastecimiento y su payload de entrada simplificado.
 public class ProductSupplyRest {
 
     @Autowired
@@ -41,7 +42,7 @@ public class ProductSupplyRest {
         return service.listarPorId(id);
     }
 
-    // GUARDAR
+    // Registra un nuevo producto de abastecimiento con los campos editables del formulario.
     @PostMapping
     public ProductSupply guardar(@RequestBody ProductSupplyRequest request) {
         return service.guardar(toEntity(request));
@@ -53,6 +54,7 @@ public class ProductSupplyRest {
         return service.actualizar(id, toEntity(request));
     }
 
+    // Mapea el DTO de entrada al modelo JPA que usa la capa de servicio.
     private ProductSupply toEntity(ProductSupplyRequest request) {
         ProductSupply product = new ProductSupply();
         product.setProductName(request.getProductName());

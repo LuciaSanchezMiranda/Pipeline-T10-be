@@ -16,6 +16,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/api/purchase")
 @Tag(name = "Purchase", description = "CRUD de Órdenes de Compra (Purchases)")
+// Endpoint REST para crear, consultar y eliminar compras con sus detalles relacionados.
 public class PurchaseRest {
 
     @Autowired
@@ -56,6 +57,7 @@ public class PurchaseRest {
         return toResponse(service.actualizar(id, toEntity(request)));
     }
 
+    // Transforma la entidad de compra al DTO de respuesta usado por Swagger y el cliente.
     private PurchaseResponse toResponse(Purchase purchase) {
         if (purchase == null) {
             return null;
@@ -87,6 +89,7 @@ public class PurchaseRest {
         return response;
     }
 
+    // Convierte la solicitud recibida en la entidad de compra con sus detalles asociados.
     private Purchase toEntity(PurchaseRequest request) {
         Purchase purchase = new Purchase();
 
