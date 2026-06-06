@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+// Lógica de negocio de compras: validación, cálculo de totales y control de stock.
 public class PurchaseServiceImpl implements PurchaseService {
 
     @Autowired
@@ -42,6 +43,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return repository.findByStatusWithDetails(status);
     }
 
+    // Crea una compra, valida proveedores, empleados y detalles, y actualiza stock si el estado es COMPLETADO.
     @Override
     @Transactional
     public Purchase guardar(Purchase purchase) {
@@ -101,6 +103,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return repository.findByIdWithDetails(saved.getIdPurchase()).orElse(saved);
     }
 
+    // Actualiza una compra existente y ajusta el stock según el estado anterior y el nuevo estado.
     @Override
     @Transactional
     public Purchase actualizar(Integer id, Purchase purchase) {
@@ -196,6 +199,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return null;
     }
 
+    // Elimina la compra de forma lógica y revierte el stock si la compra estaba completada.
     @Override
     @Transactional
     public Purchase eliminarLogico(Integer id) {
