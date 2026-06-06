@@ -212,8 +212,8 @@ public class PurchaseServiceImpl implements PurchaseService {
                     }
                 }
             }
-            // Cambiar el estado a CANCELADO como eliminación lógica
-            p.setStatus("CANCELADO");
+            // Cambiar el estado a REGISTRO ELIMINADO como eliminación lógica
+            p.setStatus("REGISTRO ELIMINADO");
             Purchase saved = repository.save(p);
             return repository.findByIdWithDetails(saved.getIdPurchase()).orElse(saved);
         }
