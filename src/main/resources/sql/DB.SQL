@@ -275,12 +275,15 @@ CREATE TABLE STOCK_MOVEMENT(
     comments        VARCHAR(500)  NOT NULL,
     movement_date   DATETIME      NOT NULL,
     created_at      DATETIME      DEFAULT GETDATE(),
+    status          VARCHAR(20)   DEFAULT 'ACTIVO' NOT NULL, -- Agregado
+    deleted_at      DATETIME      NULL,                      -- Agregado
+    restored_at     DATETIME      NULL,                      -- Agregado
     employee_id      INT          NOT NULL,
-    sale_id          INT          NOT NULL,
-    batch_id         INT          NOT NULL,
-    products_sale_id INT          NOT NULL,
-    product_id       INT          NOT NULL,
-    id_purchase      INT          NOT NULL,
+    sale_id          INT          NULL, -- Sugerido NULL si no siempre hay venta
+    batch_id         INT          NULL, -- Sugerido NULL si no siempre hay lote
+    products_sale_id INT          NULL, -- Sugerido NULL si afecta suministro en vez de venta
+    product_id       INT          NULL, -- Sugerido NULL si afecta venta en vez de suministro
+    id_purchase      INT          NULL, -- Sugerido NULL si no siempre hay compra
     CONSTRAINT FK_STOCK_EMPLOYEE     FOREIGN KEY(employee_id)      REFERENCES EMPLOYEE(employee_id),
     CONSTRAINT FK_STOCK_SALE         FOREIGN KEY(sale_id)          REFERENCES SALE(sale_id),
     CONSTRAINT FK_STOCK_BATCH        FOREIGN KEY(batch_id)         REFERENCES PRODUCTION_BATCH(batch_id),
@@ -289,6 +292,7 @@ CREATE TABLE STOCK_MOVEMENT(
     CONSTRAINT FK_STOCK_PURCHASE     FOREIGN KEY(id_purchase)      REFERENCES PURCHASES(id_purchase)
 );
 GO
+
 
 -- =====================================================
 -- =====================================================
@@ -713,3 +717,5 @@ INSERT INTO STOCK_MOVEMENT (movement_type, movement_reason, quantity, stock_befo
 ('ENTRADA', 'Compra proveedor',      60,   55, 115, 'Reposición manzanas',           '2026-04-20', 20, 20, 20, 20, 20, 20); 
 
 Select * from SUPPLIER;
+Select * from STOCK_MOVEMENT;
+Select * from PRODUCTS_SALE;
