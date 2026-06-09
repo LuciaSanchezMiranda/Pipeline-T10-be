@@ -48,6 +48,15 @@ public class StockMovement {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "status", length = 20, nullable = false)
+    private String status = "ACTIVO";
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "restored_at")
+    private LocalDateTime restoredAt;
+
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
@@ -79,6 +88,9 @@ public class StockMovement {
         }
         if (movementDate == null) {
             movementDate = LocalDateTime.now();
+        }
+        if (status == null) {
+            status = "ACTIVO";
         }
     }
 }

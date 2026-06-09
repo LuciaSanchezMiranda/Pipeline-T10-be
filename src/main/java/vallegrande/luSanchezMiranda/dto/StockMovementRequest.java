@@ -13,6 +13,7 @@ public class StockMovementRequest {
     private BigDecimal stockAfter;
     private String comments;
     private LocalDateTime movementDate;
+    private String status;
     private Integer employeeId;
     private Integer saleId;
     private Integer batchId;

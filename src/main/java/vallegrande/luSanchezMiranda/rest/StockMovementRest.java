@@ -19,10 +19,14 @@ public class StockMovementRest {
     @Autowired
     private StockMovementService service;
 
-    @Operation(summary = "Listar movimientos de stock", description = "Obtiene la lista completa de movimientos de stock.")
+    @Operation(summary = "Listar movimientos de stock", description = "Obtiene la lista de movimientos de stock con filtros opcionales.")
     @GetMapping
-    public List<StockMovementResponse> listar() {
-        return service.listar();
+    public List<StockMovementResponse> listar(
+            @RequestParam(required = false) Integer productsSaleId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String status) {
+        return service.listar(productsSaleId, startDate, endDate, status);
     }
 
     @Operation(summary = "Buscar movimiento por ID", description = "Obtiene los datos de un movimiento de stock específico según su ID.")
@@ -43,9 +47,15 @@ public class StockMovementRest {
         return service.actualizar(id, request);
     }
 
-    @Operation(summary = "Eliminar movimiento de stock", description = "Elimina un movimiento de stock de la base de datos por su ID.")
+    @Operation(summary = "Eliminación lógica de movimiento de stock")
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
-        service.eliminar(id);
+    public StockMovementResponse eliminar(@PathVariable Integer id) {
+        return service.eliminarLogico(id);
+    }
+
+    @Operation(summary = "Restaurar movimiento de stock inactivo")
+    @PatchMapping("/restaurar/{id}")
+    public StockMovementResponse restaurar(@PathVariable Integer id) {
+        return service.restaurar(id);
     }
 }

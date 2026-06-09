@@ -15,6 +15,9 @@ public class StockMovementResponse {
     private String comments;
     private LocalDateTime movementDate;
     private LocalDateTime createdAt;
+    private String status;
+    private LocalDateTime deletedAt;
+    private LocalDateTime restoredAt;
     private Integer employeeId;
     private String employeeName;
     private Integer saleId;
