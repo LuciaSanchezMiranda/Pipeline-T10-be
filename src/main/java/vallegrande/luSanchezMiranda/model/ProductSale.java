@@ -2,8 +2,11 @@ package vallegrande.luSanchezMiranda.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -27,21 +30,24 @@ public class ProductSale {
     @Column(name = "products_sale_id")
     private Integer productsSaleId;
 
-    /** Nombre del producto de venta. Máximo 100 caracteres. */
+    /** Nombre del producto de venta. Máximo 100 caracteres. No puede estar vacío. */
     @NotNull(message = "El nombre del producto no puede ser nulo")
-    @Size(max = 100, message = "El nombre del producto no puede exceder los 100 caracteres")
+    @NotBlank(message = "El nombre del producto no puede estar vacío")
+    @Size(min = 3, max = 100, message = "El nombre del producto debe tener entre 3 y 100 caracteres")
     @Column(name = "product_name", length = 100, nullable = false)
     private String productName;
 
-    /** Precio unitario del producto. Debe ser mayor a 0. */
+    /** Precio unitario del producto. Debe ser mayor a 0 y no exceder 99999.99. */
     @NotNull(message = "El precio no puede ser nulo")
     @DecimalMin(value = "0.01", message = "El precio debe ser mayor a 0")
+    @DecimalMax(value = "99999.99", message = "El precio no puede exceder 99999.99")
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
 
-    /** Cantidad de unidades disponibles en stock. No puede ser negativa. */
+    /** Cantidad de unidades disponibles en stock. No puede ser negativa ni exceder 100000. */
     @NotNull(message = "El stock disponible no puede ser nulo")
     @Min(value = 0, message = "El stock disponible no puede ser negativo")
+    @Max(value = 100000, message = "El stock disponible no puede exceder 100000 unidades")
     @Column(name = "available_stock", nullable = false)
     private Integer availableStock = 0;
 
@@ -51,9 +57,10 @@ public class ProductSale {
     @Column(name = "unit_measurement", length = 30, nullable = false)
     private String unitMeasurement;
 
-    /** Descripción detallada del producto. Máximo 255 caracteres. */
+    /** Descripción detallada del producto. Entre 10 y 255 caracteres. No puede estar vacía. */
     @NotNull(message = "La descripción no puede ser nula")
-    @Size(max = 255, message = "La descripción no puede exceder los 255 caracteres")
+    @NotBlank(message = "La descripción no puede estar vacía")
+    @Size(min = 10, max = 255, message = "La descripción debe tener entre 10 y 255 caracteres")
     @Column(name = "description", columnDefinition = "CHAR(255)", nullable = false)
     private String description;
 
@@ -73,7 +80,8 @@ public class ProductSale {
     @Column(name = "restored_at")
     private LocalDateTime restoredAt;
 
-    /** Categoría a la que pertenece el producto de venta. */
+    /** Categoría a la que pertenece el producto de venta. No puede ser nula. */
+    @NotNull(message = "La categoría del producto no puede ser nula")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
