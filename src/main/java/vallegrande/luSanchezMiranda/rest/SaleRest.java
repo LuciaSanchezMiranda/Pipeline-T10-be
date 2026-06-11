@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vallegrande.luSanchezMiranda.model.Sale;
+import vallegrande.luSanchezMiranda.dto.SaleRequest;
 import vallegrande.luSanchezMiranda.service.SaleService;
 
 import java.util.List;
@@ -32,14 +33,14 @@ public class SaleRest {
 
     @Operation(summary = "Crear venta")
     @PostMapping
-    public Sale guardar(@RequestBody Sale sale) {
-        return service.guardar(sale);
+    public Sale guardar(@RequestBody SaleRequest request) {
+        return service.guardar(request.toEntity());
     }
 
     @Operation(summary = "Actualizar venta")
     @PutMapping("/{id}")
-    public Sale actualizar(@PathVariable Integer id, @RequestBody Sale sale) {
-        return service.actualizar(id, sale);
+    public Sale actualizar(@PathVariable Integer id, @RequestBody SaleRequest request) {
+        return service.actualizar(id, request.toEntity());
     }
 
     @Operation(summary = "Eliminación lógica de venta (anular)")

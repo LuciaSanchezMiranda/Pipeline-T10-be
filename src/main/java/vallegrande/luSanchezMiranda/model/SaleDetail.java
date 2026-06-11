@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 
 @Entity
@@ -37,5 +39,7 @@ public class SaleDetail {
 
     @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Sale sale;
 }

@@ -6,8 +6,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "SALE")
@@ -45,6 +48,12 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "id_customer", nullable = false)
     private Customer customer;
+
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("sale")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<SaleDetail> details;
     
     @PrePersist
     protected void onCreate() {
