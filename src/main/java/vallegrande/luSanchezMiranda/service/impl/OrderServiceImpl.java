@@ -64,7 +64,16 @@ public class OrderServiceImpl implements OrderService {
             if (order.getTotalEstimated() != null) existing.setTotalEstimated(order.getTotalEstimated());
             if (order.getEmployee() != null) existing.setEmployee(order.getEmployee());
             if (order.getCustomer() != null) existing.setCustomer(order.getCustomer());
-            if (order.getDetails() != null) existing.setDetails(order.getDetails());
+            if (order.getDetails() != null) {
+                if (existing.getDetails() == null) {
+                    existing.setDetails(new ArrayList<>());
+                }
+                existing.getDetails().clear();
+                for (OrderDetail d : order.getDetails()) {
+                    d.setOrder(existing);
+                    existing.getDetails().add(d);
+                }
+            }
             return repository.save(existing);
         }
         return null;
@@ -99,47 +108,51 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setEstimatedDelivery(request.getEstimatedDelivery());
         order.setStatus(request.getStatus() != null ? request.getStatus() : "pendiente");
-        order.setNotes(""); // Por defecto notas vacías
+        order.setNotes(request.getNotes() != null ? request.getNotes() : "");
+        order.setTotalEstimated(request.getTotalEstimated() != null ? request.getTotalEstimated() : BigDecimal.ZERO);
 
         // Asignar empleado y cliente
-        if (request.getEmployeeId() != null) {
-            Employee employee = employeeRepository.findById(request.getEmployeeId()).orElse(null);
+        if (request.getEmployee() != null && request.getEmployee().getEmployeeId() != null) {
+            Employee employee = employeeRepository.findById(request.getEmployee().getEmployeeId()).orElse(null);
             order.setEmployee(employee);
         }
 
-        if (request.getIdCustomer() != null) {
-            Customer customer = customerRepository.findById(request.getIdCustomer()).orElse(null);
+        if (request.getCustomer() != null && request.getCustomer().getIdCustomer() != null) {
+            Customer customer = customerRepository.findById(request.getCustomer().getIdCustomer()).orElse(null);
             order.setCustomer(customer);
         }
 
         // Convertir detalles
         if (request.getDetails() != null && !request.getDetails().isEmpty()) {
             List<OrderDetail> details = new ArrayList<>();
-            BigDecimal total = BigDecimal.ZERO;
+            BigDecimal totalCalculated = BigDecimal.ZERO;
 
             for (OrderRequest.OrderDetailRequest detailRequest : request.getDetails()) {
                 OrderDetail detail = new OrderDetail();
                 detail.setQuantity(detailRequest.getQuantity());
                 detail.setUnitPrice(detailRequest.getUnitPrice());
 
-                BigDecimal subtotal = detailRequest.getUnitPrice()
-                        .multiply(BigDecimal.valueOf(detailRequest.getQuantity()));
+                BigDecimal subtotal = detailRequest.getSubtotal() != null 
+                        ? detailRequest.getSubtotal() 
+                        : detailRequest.getUnitPrice().multiply(BigDecimal.valueOf(detailRequest.getQuantity()));
                 detail.setSubtotal(subtotal);
                 detail.setOrder(order);
 
                 // Asignar producto
-                if (detailRequest.getProductsSaleId() != null) {
+                if (detailRequest.getProductSale() != null && detailRequest.getProductSale().getProductsSaleId() != null) {
                     ProductSale productSale = productSaleRepository
-                            .findById(detailRequest.getProductsSaleId()).orElse(null);
+                            .findById(detailRequest.getProductSale().getProductsSaleId()).orElse(null);
                     detail.setProductSale(productSale);
                 }
 
                 details.add(detail);
-                total = total.add(subtotal);
+                totalCalculated = totalCalculated.add(subtotal);
             }
 
             order.setDetails(details);
-            order.setTotalEstimated(total);
+            if (request.getTotalEstimated() == null) {
+                order.setTotalEstimated(totalCalculated);
+            }
         }
 
         return order;

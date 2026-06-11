@@ -19,6 +19,7 @@ import java.util.List;
 public class SaleRequest {
     private String receiptType;      // Tipo de comprobante (BOLETA, FACTURA, etc.)
     private String paymentMethod;    // Método de pago (YAPE, EFECTIVO, tarjeta, etc.)
+    private String status;           // Estado de la venta (completada, pendiente, anulada)
     private BigDecimal totalCost;    // Costo total acumulado de la venta
     private EmployeeIdRequest employee; // Información mínima del empleado
     private CustomerIdRequest customer; // Información mínima del cliente
@@ -68,6 +69,9 @@ public class SaleRequest {
         sale.setReceiptType(this.receiptType);
         sale.setPaymentMethod(this.paymentMethod);
         sale.setTotalCost(this.totalCost);
+        if (this.status != null) {
+            sale.setStatus(this.status);
+        }
 
         // Mapea el empleado creando una instancia dummy con solo su clave primaria
         if (this.employee != null && this.employee.getEmployeeId() != null) {
