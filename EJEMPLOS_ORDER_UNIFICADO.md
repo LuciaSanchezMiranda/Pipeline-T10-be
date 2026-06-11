@@ -16,13 +16,12 @@ Se ha unificado la estructura de `Order` con `OrderDetail` para poder visualizar
 
 ### POST /api/order
 
-**Request Body (OrderRequest):**
+**Request Body (OrderRequest) - SIMPLIFICADO:**
 
 ```json
 {
   "estimatedDelivery": "2024-06-20",
   "status": "pendiente",
-  "notes": "Pedido urgente",
   "employeeId": 1,
   "idCustomer": 5,
   "details": [
@@ -40,7 +39,22 @@ Se ha unificado la estructura de `Order` con `OrderDetail` para poder visualizar
 }
 ```
 
-**Response (OrderResponse):**
+### Campos del OrderRequest
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `estimatedDelivery` | LocalDate (YYYY-MM-DD) | ✅ | Fecha estimada de entrega |
+| `status` | String | ✅ | Estado del pedido (ej: "pendiente", "confirmado", etc.) |
+| `employeeId` | Integer | ✅ | ID del empleado que crea el pedido |
+| `idCustomer` | Integer | ✅ | ID del cliente |
+| `details` | List<OrderDetailRequest> | ✅ | Array con los detalles del pedido (productos) |
+| `details[].productsSaleId` | Integer | ✅ | ID del producto a vender |
+| `details[].quantity` | Integer | ✅ | Cantidad de unidades |
+| `details[].unitPrice` | BigDecimal | ✅ | Precio unitario |
+
+**Nota:** El campo `notes` se asigna automáticamente como vacío. El `totalEstimated` se calcula automáticamente sumando todos los subtotales.
+
+---
 
 ```json
 {
@@ -48,7 +62,7 @@ Se ha unificado la estructura de `Order` con `OrderDetail` para poder visualizar
   "orderDate": "2024-06-11T14:30:45.123456",
   "estimatedDelivery": "2024-06-20",
   "status": "pendiente",
-  "notes": "Pedido urgente",
+  "notes": "",
   "totalEstimated": 1351.50,
   "createdAt": "2024-06-11T14:30:45.123456",
   "updatedAt": "2024-06-11T14:30:45.123456",

@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setEstimatedDelivery(request.getEstimatedDelivery());
         order.setStatus(request.getStatus() != null ? request.getStatus() : "pendiente");
-        order.setNotes(request.getNotes());
+        order.setNotes(""); // Por defecto notas vacías
 
         // Asignar empleado y cliente
         if (request.getEmployeeId() != null) {
