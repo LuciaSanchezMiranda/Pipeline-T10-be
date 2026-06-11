@@ -58,27 +58,27 @@ public class StockMovement {
     private LocalDateTime restoredAt;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id", nullable = true)
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = false)
+    @JoinColumn(name = "sale_id", nullable = true)
     private Sale sale;
 
     @ManyToOne
-    @JoinColumn(name = "batch_id", nullable = false)
+    @JoinColumn(name = "batch_id", nullable = true)
     private ProductionBatch productionBatch;
 
     @ManyToOne
-    @JoinColumn(name = "products_sale_id", nullable = false)
+    @JoinColumn(name = "products_sale_id", nullable = true)
     private ProductSale productSale;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = true)
     private ProductSupply productSupply;
 
     @ManyToOne
-    @JoinColumn(name = "id_purchase", nullable = false)
+    @JoinColumn(name = "id_purchase", nullable = true)
     private Purchase purchase;
 
     @PrePersist
