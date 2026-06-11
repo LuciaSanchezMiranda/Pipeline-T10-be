@@ -82,7 +82,7 @@ public class ProductSale {
 
     /** Categoría a la que pertenece el producto de venta. No puede ser nula. */
     @NotNull(message = "La categoría del producto no puede ser nula")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 

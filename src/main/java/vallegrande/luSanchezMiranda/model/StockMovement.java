@@ -75,32 +75,32 @@ public class StockMovement {
     private LocalDateTime restoredAt;
 
     /** Empleado responsable del movimiento. Campo opcional. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id", nullable = true)
     private Employee employee;
 
     /** Venta asociada al movimiento. Campo opcional. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sale_id", nullable = true)
     private Sale sale;
 
     /** Lote de producción asociado al movimiento. Campo opcional. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "batch_id", nullable = true)
     private ProductionBatch productionBatch;
 
     /** Producto de venta involucrado en el movimiento. Campo opcional. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "products_sale_id", nullable = true)
     private ProductSale productSale;
 
     /** Producto de insumo involucrado en el movimiento. Campo opcional. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", nullable = true)
     private ProductSupply productSupply;
 
     /** Compra asociada al movimiento. Campo opcional. */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_purchase", nullable = true)
     private Purchase purchase;
 
