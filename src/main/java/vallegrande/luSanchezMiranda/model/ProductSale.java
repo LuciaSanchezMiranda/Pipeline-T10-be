@@ -59,8 +59,9 @@ public class ProductSale {
     @Column(name = "restored_at")
     private LocalDateTime restoredAt;
 
-    @Column(name = "category_id", nullable = false)
-    private Integer categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @PrePersist
     protected void onCreate() {

@@ -48,7 +48,7 @@ public class ProductSaleServiceImpl implements ProductSaleService {
         if (existente.isPresent()) {
             ProductSale p = existente.get();
 
-            p.setCategoryId(product.getCategoryId());
+            p.setCategory(product.getCategory());
             p.setProductName(product.getProductName());
             p.setPrice(product.getPrice());
             p.setAvailableStock(product.getAvailableStock());
