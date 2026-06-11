@@ -22,4 +22,4 @@ springdoc:
     path: /api-docs
   swagger-ui:
     enabled: true
-    path: /swagger-ui.html # Ruta para acceder a Swagger UI: http://localhost:8085/swagger-ui.html
+    path: /swagger-ui.html # Ruta para acceder a Swagger UI:http://localhost:4200

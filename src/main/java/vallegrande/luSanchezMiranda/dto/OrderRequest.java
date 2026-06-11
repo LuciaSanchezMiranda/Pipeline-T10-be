@@ -9,7 +9,6 @@ import java.util.List;
 public class OrderRequest {
     private LocalDate estimatedDelivery;
     private String status;
-    private String notes;
     private Integer employeeId;
     private Integer idCustomer;
     private List<OrderDetailRequest> details;
