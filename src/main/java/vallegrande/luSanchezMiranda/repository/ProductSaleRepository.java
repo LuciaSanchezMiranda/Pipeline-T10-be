@@ -12,7 +12,7 @@ public interface ProductSaleRepository extends JpaRepository<ProductSale, Intege
     
     List<ProductSale> findByProductNameContainingIgnoreCase(String productName);
     
-    List<ProductSale> findByCategoryId(Integer categoryId);
+    List<ProductSale> findByCategory_CategoryId(Integer categoryId);
     
     List<ProductSale> findByDeletedAtIsNull();
     
