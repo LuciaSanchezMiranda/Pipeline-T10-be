@@ -41,4 +41,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME_LUCIA }}/pipeline-t10-be:latest
-            ${{ secrets.DOCKERHUB_TOKEN_LUCIA }}/pipeline-t10-be:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME_LUCIA }}/pipeline-t10-be:${{ github.sha }}
