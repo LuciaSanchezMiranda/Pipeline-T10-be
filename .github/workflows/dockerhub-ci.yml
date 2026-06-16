@@ -3,12 +3,13 @@ name: Docker Hub
 on:
   push:
     branches:
-      - develo
-      - webflux-nosql # puedes añadir más ramas
+      - main
+      - develop # puedes añadir más ramas
   pull_request:
     branches:
-      - develo
-      - webflux-nosql # puedes añadir más ramas
+      - main
+      - develop
+      # puedes añadir más ramas
   schedule:
     # Ejecutar todos los días a las 8:00 AM hora Perú (UTC-5) → 1:00 PM UTC
     - cron: '0 13 * * *'
@@ -27,8 +28,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME_JUAN }}
-          password: ${{ secrets.DOCKERHUB_TOKEN_JUAN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME_LUCIA }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_LUCIA }}
 
       # 3. Build y Push con tags latest y SHA
       - name: Build and Push Docker Image to Docker Hub
@@ -36,8 +37,8 @@ jobs:
         with:
           context: .
           #dockerfile: Dockerfile   # Dockerfile en la raíz del proyecto
-          file: ./dockerfile-juan/Dockerfile        # Dockerfile en la carpeta dockerfile-juan
+          file: ./dockerfile-Lucia/Dockerfile        # Dockerfile en la carpeta dockerfile-juan
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME_JUAN }}/springboot-sqlserver:latest
-            ${{ secrets.DOCKERHUB_USERNAME_JUAN }}/springboot-sqlserver:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME_LUCIA }}/pipeline-t10-be:latest
+            ${{ secrets.DOCKERHUB_TOKEN_LUCIA }}/pipeline-t10-be:${{ github.sha }}
